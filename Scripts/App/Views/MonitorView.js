@@ -1,4 +1,10 @@
-﻿OccupOS.MonitorView = Ember.View.extend({
+﻿OccupOS.MonitorView = Ember.ContainerView.create({
+    childViews: ['aView', 'bView', 'cView'],
+    aView: Ember.View.create(),
+    bView: Ember.View.create(),
+    cView: Ember.View.create()
+});
+/*OccupOS.MonitorView = Ember.View.extend({
     didInsertElement: function () {
         //Check out: http://bl.ocks.org/biovisualize/1209499
         var n = 3, // number of layers
@@ -217,4 +223,4 @@
                 .text(function (d) { return d.name; });
         });
     }
-});
+});*/
