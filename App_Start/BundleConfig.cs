@@ -31,8 +31,9 @@ namespace OccupOSMonitor.App_Start {
                         "~/Scripts/Vendor/Ember/webapi_serializer.js",
                         "~/Scripts/Vendor/Ember/webapi_adapter.js"));
 
-            bundles.Add(new Bundle("~/bundles/templates", new OccupOSMonitor.App_Start.EmberHandlebarsBundleTransform())
-                        .Include("~/Scripts/App/Templates/*.hbs"));
+            bundles.Add(
+                new Bundle("~/bundles/templates", new OccupOSMonitor.App_Start.EmberHandlebarsBundleTransform()).Include
+                    ("~/Scripts/App/Templates/*.hbs", "~/Scripts/App/Templates/Monitor/*.hbs"));
 
             // possibly have to include store.js before the models (not sure, just as a future hint)
             bundles.Add(new Bundle("~/bundles/app", new JsMinify()).Include(
