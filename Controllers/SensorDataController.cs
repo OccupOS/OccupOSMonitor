@@ -64,7 +64,7 @@ namespace OccupOSMonitor.Controllers {
                     }
                 } catch (SqlException ex) {
                     System.Diagnostics.Debug.WriteLine(ex.Message);
-                    return new JObject("error");
+                    return new JObject(new JProperty("error"));
                 }
             }
 

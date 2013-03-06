@@ -364,7 +364,6 @@
     <Content Include="Scripts\App\Templates\Monitor.hbs" />
     <Content Include="Scripts\App\Templates\SensorData.hbs" />
     <Content Include="Scripts\App\Templates\Monitor\Barchart.hbs" />
-    <Content Include="Scripts\App\Templates\Copy of Monitor.hbs" />
     <Content Include="Scripts\App\Templates\Monitor\Table.hbs" />
     <Content Include="Scripts\App\Templates\Monitor\Linechart.hbs" />
     <None Include="Scripts\Vendor\JQuery\jquery-1.9.1.intellisense.js" />

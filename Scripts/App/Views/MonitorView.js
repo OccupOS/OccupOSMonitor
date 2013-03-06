@@ -1,17 +1,249 @@
-﻿OccupOS.MonitorView = Ember.ContainerView.extend({
-    classNames: ['monitor'],
-    //defines how often and in which order a childView will be displayed
-    childViews: ['BarchartView', 'LinechartView', 'TableView'],
-    BarchartView: Ember.View.extend({
-        templateName: 'barchart'
-    }),
-    LinechartView: Ember.View.create({
-        templateName: 'linechart'
-    }),
-    TableView: Ember.View.create({
-        templateName: 'table'
-    })
+﻿OccupOS.MonitorView = Ember.View.extend({
+    contentBinding: 'OccupOS.MonitorController',
+    chart: {},
+            line:         {},
+            area:         {},
+            /** Method: updateChart()
+             * Listens for changes in the content and updates the line chart
+             * dynamically with a fancy animation.
+             *
+             * Observes:
+             *  - content.@each.value
+             */
+            updateChart: function updateChart() {
+                var content = this.get('content'),
+                    chart   = this.get('chart'),
+                    line    = this.get('line'),
+                    area    = this.get('area');
+
+                //selects, updates and animates the d3-chart lines
+                chart.selectAll('path.line')
+                    .data(content)
+                    .transition()
+                    .duration(500)
+                    .ease('sin')
+                    .attr('d', line(content));
+
+                //selects, updates and animates the d3-chart filled area
+                chart.selectAll('path.area')
+                    .data(content)
+                    .transition()
+                    .duration(500)
+                    .ease('sin')
+                    .attr('d', area(content));
+            }.observes('content.@each.value'),
+
+            didInsertElement: function didInsertElement() {
+                var elementId = this.get('elementId');
+                var content = this.get('content');
+
+                console.log(content);
+
+                //There is nothing in content (in the Controller I think), Check: http://jsfiddle.net/2UPLp/16/light/
+
+                var margin = { top: 35, right: 35, bottom: 35, left: 35 };
+                var w = 500 - margin.right - margin.left;
+                var h = 300 - margin.top - margin.top;
+
+                console.log(content.length);
+
+                var x = d3.scale.linear()
+                    .range([0, w])
+                    .domain([1, content.length]);
+                var y = d3.scale.linear()
+                    .range([h, 0])
+                    .domain([0, 100]);
+                var xAxis = d3.svg.axis()
+                    .scale(x)
+                    .ticks(10)
+                    .tickSize(-h)
+                    .tickSubdivide(true);
+                var yAxis = d3.svg.axis()
+                    .scale(y)
+                    .ticks(4)
+                    .tickSize(-w)
+                    .orient('left');
+
+                // Prepeare Chart Elements:
+                var line = d3.svg.line()
+                    .interpolate('monotone')
+                    .x(function (d) { return x(d.get('timestamp')) })
+                    .y(function (d) { return y(d.get('value')) });
+                this.set('line', line);
+
+                var area = d3.svg.area()
+                    .interpolate('monotone')
+                    .x(function (d) { return x(d.get('timestamp')); })
+                    .y0(h)
+                    .y1(function (d) { return y(d.get('value')); });
+                this.set('area', area);
+
+                var chart = d3.select('#' + elementId).append('svg:svg')
+                    .attr('id', 'chart')
+                    .attr('width', w + margin.left + margin.right)
+                    .attr('height', w + margin.top + margin.bottom)
+                    .append('svg:g')
+                    .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+
+                // Add Chart Elements to Chart:
+                chart.append('svg:g')
+                    .attr('class', 'x axis')
+                    .attr('transform', 'translate(0,' + h + ')')
+                    .call(xAxis);
+
+                chart.append('svg:g')
+                    .attr('class', 'y axis')
+                    .call(yAxis);
+
+                chart.append('svg:clipPath')
+                    .attr('id', 'clip')
+                    .append('svg:rect')
+                    .attr('width', w)
+                    .attr('height', h);
+
+                chart.append('svg:path')
+                    .attr('class', 'area')
+                    .attr('clip-path', 'url(#clip)')
+                    .attr('d', area(content));
+
+                chart.append('svg:path')
+                    .attr('class', 'line')
+                    .attr('clip-path', 'url(#clip)')
+                    .attr('d', line(content));
+                this.set('chart', chart);
+            }
 });
+
+//OccupOS.MonitorView = Ember.ContainerView.extend({
+//    classNames: ['monitor'],
+//    //defines how often and in which order a childView will be displayed
+//    childViews: ['BarchartView', 'LinechartView', 'TableView'],
+//    contentBinding: 'OccupOS.MonitorController.content',
+//    didInsertElement: function didInsertElement() {
+//        console.log("bla " + this.get('content'));
+//    },
+//    BarchartView: Ember.View.extend({
+//        templateName: 'barchart'
+//    }),
+//    LinechartView: Ember.View.extend({
+//        templateName: 'linechart',
+//        contentBinding: 'OccupOS.MonitorController',
+//        chart:        {},
+//        line:         {},
+//        area:         {},
+//        /** Method: updateChart()
+//         * Listens for changes in the content and updates the line chart
+//         * dynamically with a fancy animation.
+//         *
+//         * Observes:
+//         *  - content.@each.value
+//         */
+//        updateChart: function updateChart() {
+//            var content = this.get('content'),
+//                chart   = this.get('chart'),
+//                line    = this.get('line'),
+//                area    = this.get('area');
+
+//            //selects, updates and animates the d3-chart lines
+//            chart.selectAll('path.line')
+//                .data(content)
+//                .transition()
+//                .duration(500)
+//                .ease('sin')
+//                .attr('d', line(content));
+            
+//            //selects, updates and animates the d3-chart filled area
+//            chart.selectAll('path.area')
+//                .data(content)
+//                .transition()
+//                .duration(500)
+//                .ease('sin')
+//                .attr('d', area(content));
+//        }.observes('content.@each.value'),
+        
+//        didInsertElement: function didInsertElement() {
+//            var elementId = this.get('elementId');
+//            var content = this.get('content');
+
+//            console.log(content);
+
+//            //There is nothing in content (in the Controller I think), Check: http://jsfiddle.net/2UPLp/16/light/
+
+//            /*var margin = { top: 35, right: 35, bottom: 35, left: 35 };
+//            var w = 500 - margin.right - margin.left;
+//            var h = 300 - margin.top - margin.top;
+
+//            var x = d3.scale.linear()
+//                .range([0, w])
+//                .domain([1, content.length]);
+//            var y = d3.scale.linear()
+//                .range([h, 0])
+//                .domain([0, 100]);
+//            var xAxis = d3.svg.axis()
+//                .scale(x)
+//                .ticks(10)
+//                .tickSize(-h)
+//                .tickSubdivide(true);
+//            var yAxis = d3.svg.axis()
+//                .scale(y)
+//                .ticks(4)
+//                .tickSize(-w)
+//                .orient('left');
+
+//            // Prepeare Chart Elements:
+//            var line = d3.svg.line()
+//                .interpolate('monotone')
+//                .x(function (d) { return x(d.get('timestamp')) })
+//                .y(function (d) { return y(d.get('value')) });
+//            this.set('line', line);
+
+//            var area = d3.svg.area()
+//                .interpolate('monotone')
+//                .x(function (d) { return x(d.get('timestamp')); })
+//                .y0(h)
+//                .y1(function (d) { return y(d.get('value')); });
+//            this.set('area', area);
+
+//            var chart = d3.select('#' + elementId).append('svg:svg')
+//                .attr('id', 'chart')
+//                .attr('width', w + margin.left + margin.right)
+//                .attr('height', w + margin.top + margin.bottom)
+//                .append('svg:g')
+//                .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+
+//            // Add Chart Elements to Chart:
+//            chart.append('svg:g')
+//                .attr('class', 'x axis')
+//                .attr('transform', 'translate(0,' + h + ')')
+//                .call(xAxis);
+
+//            chart.append('svg:g')
+//                .attr('class', 'y axis')
+//                .call(yAxis);
+
+//            chart.append('svg:clipPath')
+//                .attr('id', 'clip')
+//                .append('svg:rect')
+//                .attr('width', w)
+//                .attr('height', h);
+
+//            chart.append('svg:path')
+//                .attr('class', 'area')
+//                .attr('clip-path', 'url(#clip)')
+//                .attr('d', area(content));
+
+//            chart.append('svg:path')
+//                .attr('class', 'line')
+//                .attr('clip-path', 'url(#clip)')
+//                .attr('d', line(content));
+//            this.set('chart', chart);*/
+//        }
+        
+//    }),
+//    TableView: Ember.View.create({
+//        templateName: 'table'
+//    })
+//});
 /*OccupOS.MonitorView = Ember.View.extend({
     didInsertElement: function () {
         //Check out: http://bl.ocks.org/biovisualize/1209499
