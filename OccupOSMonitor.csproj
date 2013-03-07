@@ -208,8 +208,6 @@
     <Content Include="Images\apple-touch-icon-57-precomposed.png" />
     <Content Include="Images\apple-touch-icon-72-precomposed.png" />
     <Content Include="Images\favicon.png" />
-    <Content Include="Images\glyphicons-halflings-white.png" />
-    <Content Include="Images\glyphicons-halflings.png" />
     <Content Include="Images\OccupOSIcon.png" />
     <Content Include="Images\OccupOSLogo.png" />
     <Content Include="Images\paper_fibers.png" />
@@ -310,6 +308,7 @@
     <Content Include="Scripts\App\Views\SensorDataView.js" />
     <Content Include="Scripts\Vendor\D3\d3.v3.js" />
     <Content Include="Scripts\Vendor\D3\d3.v3.min.js" />
+    <Content Include="Scripts\Vendor\Ember\ember-1.0.0-rc.1.js" />
     <Content Include="Scripts\Vendor\Ember\ember-data.js" />
     <Content Include="Scripts\Vendor\Ember\ember.js" />
     <Content Include="Content\Vendor\Twitter\fonts\glyphiconshalflings-regular.eot" />
@@ -364,11 +363,17 @@
     <Content Include="Scripts\App\Templates\Navbar.hbs" />
     <Content Include="Scripts\App\Templates\Monitor.hbs" />
     <Content Include="Scripts\App\Templates\SensorData.hbs" />
+    <Content Include="Scripts\App\Templates\Monitor\Barchart.hbs" />
+    <Content Include="Scripts\App\Templates\Copy of Monitor.hbs" />
+    <Content Include="Scripts\App\Templates\Monitor\Table.hbs" />
+    <Content Include="Scripts\App\Templates\Monitor\Linechart.hbs" />
     <None Include="Scripts\Vendor\JQuery\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\Vendor\Ember\handlebars.js" />
+    <Content Include="Scripts\Vendor\Ember\handlebars.runtime-rc.3.js" />
     <Content Include="Scripts\Vendor\Ember\handlebars.runtime.js" />
     <Content Include="Scripts\Vendor\JQuery\jquery-1.9.1.js" />
     <Content Include="Scripts\Vendor\JQuery\jquery-1.9.1.min.js" />
+    <Content Include="Scripts\Vendor\JQuery\jquery-2.0.0b2.js" />
     <Content Include="Scripts\Vendor\JQuery\Plugins\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\Vendor\JQuery\Plugins\jquery.unobtrusive-ajax.min.js" />
     <None Include="Scripts\Vendor\JQuery\Plugins\jquery.validate-vsdoc.js" />
@@ -389,19 +394,6 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Images\accent.png" />
-    <Content Include="Images\bullet.png" />
-    <Content Include="Images\heroAccent.png" />
-    <Content Include="Images\orderedList0.png" />
-    <Content Include="Images\orderedList1.png" />
-    <Content Include="Images\orderedList2.png" />
-    <Content Include="Images\orderedList3.png" />
-    <Content Include="Images\orderedList4.png" />
-    <Content Include="Images\orderedList5.png" />
-    <Content Include="Images\orderedList6.png" />
-    <Content Include="Images\orderedList7.png" />
-    <Content Include="Images\orderedList8.png" />
-    <Content Include="Images\orderedList9.png" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />

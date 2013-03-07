@@ -1,8 +1,16 @@
-﻿OccupOS.MonitorView = Ember.ContainerView.create({
-    childViews: ['aView', 'bView', 'cView'],
-    aView: Ember.View.create(),
-    bView: Ember.View.create(),
-    cView: Ember.View.create()
+﻿OccupOS.MonitorView = Ember.ContainerView.extend({
+    classNames: ['monitor'],
+    //defines how often and in which order a childView will be displayed
+    childViews: ['BarchartView', 'LinechartView', 'TableView'],
+    BarchartView: Ember.View.extend({
+        templateName: 'barchart'
+    }),
+    LinechartView: Ember.View.create({
+        templateName: 'linechart'
+    }),
+    TableView: Ember.View.create({
+        templateName: 'table'
+    })
 });
 /*OccupOS.MonitorView = Ember.View.extend({
     didInsertElement: function () {
