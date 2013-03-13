@@ -1,28 +1,28 @@
 ﻿OccupOS.MonitorView = Ember.View.extend({
     contentBinding: 'OccupOS.MonitorController',
-    chart: {},
-            line:         {},
-            area:         {},
-            /** Method: updateChart()
-             * Listens for changes in the content and updates the line chart
-             * dynamically with a fancy animation.
-             *
-             * Observes:
-             *  - content.@each.value
-             */
-            updateChart: function updateChart() {
-                var content = this.get('content'),
-                    chart   = this.get('chart'),
-                    line    = this.get('line'),
-                    area    = this.get('area');
+    chart:          {},
+    line:           {},
+    area:           {},
+    /** Method: updateChart()
+    * Listens for changes in the content and updates the line chart
+    * dynamically with a fancy animation.
+    *
+    * Observes:
+    *  - content.@each.value
+    */
+    updateChart: function updateChart() {
+        var content = this.get('content'),
+            chart   = this.get('chart'),
+            line    = this.get('line'),
+            area    = this.get('area');
 
-                //selects, updates and animates the d3-chart lines
-                chart.selectAll('path.line')
-                    .data(content)
-                    .transition()
-                    .duration(500)
-                    .ease('sin')
-                    .attr('d', line(content));
+        //selects, updates and animates the d3-chart lines
+        chart.selectAll('path.line')
+            .data(content)
+            .transition()
+            .duration(500)
+            .ease('sin')
+            .attr('d', line(content));
 
                 //selects, updates and animates the d3-chart filled area
                 chart.selectAll('path.area')
@@ -36,7 +36,7 @@
             didInsertElement: function didInsertElement() {
                 var elementId = this.get('elementId');
                 var content = this.get('content');
-
+                console.log("view");
                 console.log(content);
 
                 //There is nothing in content (in the Controller I think), Check: http://jsfiddle.net/2UPLp/16/light/
