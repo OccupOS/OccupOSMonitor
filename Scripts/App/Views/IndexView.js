@@ -26,8 +26,8 @@ OccupOS.IndexView = Ember.View.extend({
             .orient("left");
 
         var line = d3.svg.line()
-            .x(function (d) { return x(d.date); })
-            .y(function (d) { return y(d.close); });
+            .x(function (d) { return x(d.MeasuredAt); })
+            .y(function (d) { return y(d.MeasuredData); });
 
         /*var svg = d3.select("#test").append("svg")
             .attr("width", width + margin.left + margin.right)
@@ -55,15 +55,16 @@ OccupOS.IndexView = Ember.View.extend({
                 d.date = parseDate(d.date);
                 d.close = +d.close;
             });*/
-        console.log(json["sensors"][0]);
+        console.log(json["sensors"]);
+        console.log(json["sensors"].length);
         json["sensors"].forEach(function (d) {
             console.log("test");
-            d.date = parseDate(d.date);
-            d.close = +d.close;
+            d.MeasuredAt = parseDate(d.MeasuredAt);
+            d.MeasuredData = +d.MeasuredData;
             console.log(d);
         });
-            x.domain(d3.extent(json["sensors"], function (d) { return d.date; }));
-            y.domain(d3.extent(json["sensors"], function (d) { return d.close; }));
+            x.domain(d3.extent(json["sensors"], function (d) { return d.MeasuredAt }));
+            y.domain(d3.extent(json["sensors"], function (d) { return d.MeasuredData; }));
 
             svg.append("g")
                 .attr("class", "x axis")
@@ -81,7 +82,7 @@ OccupOS.IndexView = Ember.View.extend({
                 .text("Price ($)");
 
             svg.append("path")
-                .datum(data)
+                .datum(json["sensors"])
                 .attr("class", "line")
                 .attr("d", line);
 
