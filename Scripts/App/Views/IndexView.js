@@ -1,5 +1,6 @@
 ﻿/// <reference path="../../vendor/ember.js" />
 /// <reference path="../App.js" />
+/// <reference path="../../_references.js" />
 
 OccupOS.IndexView = Ember.View.extend({
     propertyBinding: 'controller.value',
@@ -46,14 +47,23 @@ OccupOS.IndexView = Ember.View.extend({
           .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-        d3.tsv("/Scripts/data.tsv", function (error, data) {
+        var myjson = '{"sensors": [ { "MeasuredData": "434", "MeasuredAt": "/Date(1363876464000+0000)/"}, { "MeasuredData": "654", "MeasuredAt": "/Date(1363876464000+0000)/" } ]}';
+        json = JSON.parse(myjson); //add this line
+
+        /*d3.tsv("/Scripts/data.tsv", function (error, data) {
             data.forEach(function (d) {
                 d.date = parseDate(d.date);
                 d.close = +d.close;
-            });
-
-            x.domain(d3.extent(data, function (d) { return d.date; }));
-            y.domain(d3.extent(data, function (d) { return d.close; }));
+            });*/
+        console.log(json["sensors"][0]);
+        json["sensors"].forEach(function (d) {
+            console.log("test");
+            d.date = parseDate(d.date);
+            d.close = +d.close;
+            console.log(d);
+        });
+            x.domain(d3.extent(json["sensors"], function (d) { return d.date; }));
+            y.domain(d3.extent(json["sensors"], function (d) { return d.close; }));
 
             svg.append("g")
                 .attr("class", "x axis")
@@ -74,7 +84,7 @@ OccupOS.IndexView = Ember.View.extend({
                 .datum(data)
                 .attr("class", "line")
                 .attr("d", line);
-        });
+
     }
 });
 

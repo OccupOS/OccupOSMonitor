@@ -1,4 +1,5 @@
 ﻿/// <reference path="Vendor/jQuery/jquery-1.9.1.js" />
+/// <reference path="Vendor/D3/d3.v3.js" />
 /// <reference path="Vendor/Ember/ember.js" />
 /// <reference path="Vendor/Ember/ember-data.js" />
 /// <reference path="Vendor/Ember/handlebars.js" />
