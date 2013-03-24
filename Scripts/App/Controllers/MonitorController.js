@@ -1,5 +1,5 @@
 ﻿OccupOS.MonitorController = Ember.Controller.extend({
-    data: 'Hello World',
+    /*data: 'Hello World',
     content: [],
     
     init: function init() {
@@ -22,7 +22,7 @@
         }
 
         this.set('content', newContent);
-    }
+    }*/
 });
 
 //OccupOS.MonitorController = Ember.ArrayController.extend({

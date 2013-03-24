@@ -2,11 +2,15 @@
 /// <reference path="../App.js" />
 
 OccupOS.IndexView = Ember.View.extend({
-    templateName: 'Index',
-    //test: 'soo',
-    testBinding: 'OccupOS.IndexController.content',
-    init: function() {
+    propertyBinding: 'controller.value',
+    didInsertElement: function() {
         console.log('Indexview');
-        console.log(this.get('test'));
+        console.log(this.get('property'));
     }
-})
+});
+
+/*OccupOS.anotherObject = Ember.Object.create({
+    valueBinding: "OccupOS.IndexController.value",
+
+    // OTHER CODE FOR THIS OBJECT...
+});*/

@@ -1,5 +1,5 @@
 ﻿OccupOS.MonitorView = Ember.View.extend({
-    contentBinding: 'OccupOS.MonitorController',
+    //contentBinding: 'OccupOS.MonitorController',
     chart:          {},
     line:           {},
     area:           {},
@@ -10,7 +10,7 @@
     * Observes:
     *  - content.@each.value
     */
-    updateChart: function updateChart() {
+    /*updateChart: function updateChart() {
         var content = this.get('content'),
             chart   = this.get('chart'),
             line    = this.get('line'),
@@ -111,7 +111,7 @@
                     .attr('clip-path', 'url(#clip)')
                     .attr('d', line(content));
                 this.set('chart', chart);
-            }
+            }*/
 });
 
 //OccupOS.MonitorView = Ember.ContainerView.extend({

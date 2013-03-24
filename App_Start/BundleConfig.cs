@@ -31,6 +31,9 @@ namespace OccupOSMonitor.App_Start {
                         "~/Scripts/Vendor/Ember/webapi_serializer.js",
                         "~/Scripts/Vendor/Ember/webapi_adapter.js"));
 
+            /*bundles.Add(
+                new Bundle("~/bundles/templates", new OccupOSMonitor.App_Start.EmberHandlebarsBundleTransform()).Include
+                    ("~/Scripts/App/Templates/*.hbs", "~/Scripts/App/Templates/Monitor/*.hbs"));*/
             bundles.Add(
                 new Bundle("~/bundles/templates", new OccupOSMonitor.App_Start.EmberHandlebarsBundleTransform()).Include
                     ("~/Scripts/App/Templates/*.hbs", "~/Scripts/App/Templates/Monitor/*.hbs"));

@@ -31,11 +31,14 @@ namespace OccupOSMonitor.App_Start {
         /// </param>
         public void Process(BundleContext context, BundleResponse response) {
             var builder = new TemplateBuilder();
-
             foreach (var assetFile in response.Files) {
                 var path = context.HttpContext.Server.MapPath(assetFile.VirtualPath);
                 var template = File.ReadAllText(path);
                 var templateName = Path.GetFileNameWithoutExtension(path).ToCamelCase();
+                /*System.Diagnostics.Debug.WriteLine("-----------------------");
+                System.Diagnostics.Debug.WriteLine(templateName);
+                System.Diagnostics.Debug.WriteLine(template);
+                System.Diagnostics.Debug.WriteLine("-----------------------");*/
                 builder.Register(templateName, template);
             }
 

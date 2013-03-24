@@ -297,6 +297,7 @@
     <None Include="BundleTransformer.Configuration.xsd">
       <SubType>Designer</SubType>
     </None>
+    <Content Include="Scripts\App\Templates\application.hbs" />
     <None Include="Scripts\App\Templates\Auth.hbs" />
     <Content Include="Scripts\App\Routes\SensorDataRoute.js" />
     <Content Include="Scripts\App\Store.js" />
@@ -358,14 +359,13 @@
     <Content Include="Content\Vendor\Twitter\less\utilities.less" />
     <Content Include="Content\Vendor\Twitter\less\variables.less" />
     <Content Include="Content\Vendor\Twitter\less\wells.less" />
-    <Content Include="Scripts\App\Templates\Application.hbs" />
-    <Content Include="Scripts\App\Templates\Index.hbs" />
     <Content Include="Scripts\App\Templates\Navbar.hbs" />
     <Content Include="Scripts\App\Templates\Monitor.hbs" />
     <Content Include="Scripts\App\Templates\SensorData.hbs" />
     <Content Include="Scripts\App\Templates\Monitor\Barchart.hbs" />
     <Content Include="Scripts\App\Templates\Monitor\Table.hbs" />
     <Content Include="Scripts\App\Templates\Monitor\Linechart.hbs" />
+    <Content Include="Scripts\App\Templates\index.hbs" />
     <None Include="Scripts\Vendor\JQuery\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\Vendor\Ember\handlebars.js" />
     <Content Include="Scripts\Vendor\Ember\handlebars.runtime-rc.3.js" />
