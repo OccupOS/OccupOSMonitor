@@ -7,13 +7,6 @@ OccupOS.IndexView = Ember.View.extend({
     sensorsObserver: function() {
         this.rerender();
     }.observes('sensors.isLoaded'),
-    /*whenDataLoads: function () {
-        console.log("whendataloadsView");
-        console.log(this.get('sensors.isLoaded'));
-        console.log(this.get('sensors.length'));
-
-        this.set('content', this.get('sensors').toArray());
-    }.observes('sensors.isLoaded'),*/
     didInsertElement: function () {
         if (this.get('sensors.isLoaded')) {
             console.log('Indexview');
@@ -43,8 +36,8 @@ OccupOS.IndexView = Ember.View.extend({
                 .orient("left");
 
             var line = d3.svg.line()
-                .x(function (d) { return x(d.measuredAt); })
-                .y(function (d) { return y(d.measuredData); });
+                .x(function (d) { return x(d.get("measuredAt")); })
+                .y(function (d) { return y(d.get("measuredData")); });
 
             /*var svg = d3.select("#test").append("svg")
                 .attr("width", width + margin.left + margin.right)
@@ -64,37 +57,33 @@ OccupOS.IndexView = Ember.View.extend({
               .append("g")
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-
-            $.getJSON("http://localhost:9226/api/v1/sensors?callback=?", function (sensors) {
-                console.log(sensors["sensors"]);
-                sensors["sensors"].forEach(function (d) {
-                    d.measuredAt = parseDate(d.measuredAt);
-                    d.measuredData = d.measuredData;
-                });
-                x.domain(d3.extent(sensors["sensors"], function (d) { return d.measuredAt; }));
-                y.domain(d3.extent(sensors["sensors"], function (d) { return d.measuredData; }));
-
-                svg.append("g")
-                    .attr("class", "x axis")
-                    .attr("transform", "translate(0," + height + ")")
-                    .call(xAxis);
-
-                svg.append("g")
-                    .attr("class", "y axis")
-                    .call(yAxis)
-                  .append("text")
-                    .attr("transform", "rotate(-90)")
-                    .attr("y", 6)
-                    .attr("dy", ".71em")
-                    .style("text-anchor", "end")
-                    .text("Price (cash)");
-
-                svg.append("path")
-                    .datum(sensors["sensors"])
-                    .attr("class", "line")
-                    .attr("d", line);
-
+            sensorsArray.forEach(function (d) {
+                d.set("measuredAt", parseDate(d.get("measuredAt")));
+                d.set("measuredData", d.get("measuredData"));
             });
+
+            x.domain(d3.extent(sensorsArray, function (d) { return d.get("measuredAt"); }));
+            y.domain(d3.extent(sensorsArray, function (d) { return d.get("measuredData"); }));
+
+            svg.append("g")
+                .attr("class", "x axis")
+                .attr("transform", "translate(0," + height + ")")
+                .call(xAxis);
+
+            svg.append("g")
+                .attr("class", "y axis")
+                .call(yAxis)
+              .append("text")
+                .attr("transform", "rotate(-90)")
+                .attr("y", 6)
+                .attr("dy", ".71em")
+                .style("text-anchor", "end")
+                .text("Price ($)");
+
+            svg.append("path")
+                .datum(sensorsArray)
+                .attr("class", "line")
+                .attr("d", line);
         }
     }
 });
