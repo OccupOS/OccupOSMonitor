@@ -6,6 +6,7 @@ OccupOS.IndexView = Ember.View.extend({
     sensorsBinding: 'controller.sensors',
     sensorsObserver: function() {
         this.rerender();
+        console.log("----------rerender-------------");
     }.observes('sensors.isLoaded'),
     didInsertElement: function () {
         if (this.get('sensors.isLoaded')) {
