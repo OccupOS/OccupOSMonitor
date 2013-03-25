@@ -24,7 +24,8 @@ OccupOS.IndexView = Ember.ContainerView.extend({
         }
     }),
     TableView: Ember.View.extend({
-        
+        templateName: 'table',
+        test: 'testa'
     })
     /*didInsertElement: function () {
         if (this.get('sensors.isLoaded')) {
