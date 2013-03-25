@@ -66,20 +66,45 @@ OccupOS.IndexView = Ember.View.extend({
                 .append("g")
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-
             $.getJSON("http://localhost:9226/api/v1/sensors?callback=?", function(sensors) {
-                //console.log(sensors);
-                sensors.forEach(function(d) {
-
+                // json = JSON.parse(sensors.getJSON);
+                //   str = JSON.stringify(sensors);
+                console.log(sensors["sensors"]);
+                //   json = JSON.parse(str);
+                // json["sensors"].forEach(function (d) {
+                // JSON.stringify(sensors);
+                //json = JSON.parse(sensors);
+                sensors["sensors"].forEach(function(d) {
                     d.measuredAt = parseDate(d.measuredAt);
                     d.measuredData = d.measuredData;
-                    //console.log(d);
+                    // console.log(d);
                 });
-                x.domain(d3.extent(sensors, function(d) { return d.measuredAt; }));
-                y.domain(d3.extent(sensors, function(d) { return d.measuredData; }));
+                x.domain(d3.extent(sensors["sensors"], function(d) { return d.measuredAt; }));
+                y.domain(d3.extent(sensors["sensors"], function(d) { return d.measuredData; }));
+
+                svg.append("g")
+                    .attr("class", "x axis")
+                    .attr("transform", "translate(0," + height + ")")
+                    .call(xAxis);
+
+                svg.append("g")
+                    .attr("class", "y axis")
+                    .call(yAxis)
+                    .append("text")
+                    .attr("transform", "rotate(-90)")
+                    .attr("y", 6)
+                    .attr("dy", ".71em")
+                    .style("text-anchor", "end")
+                    .text("Price ($)");
+
+                svg.append("path")
+                    .datum(sensors["sensors"])
+                    .attr("class", "line")
+                    .attr("d", line);
+
             });
 
-            /*    var myjson = '{"sensors": [ { "MeasuredData": "434", "MeasuredAt": "2013-03-21T14:34:24.0000000"}, { "MeasuredData": "654", "MeasuredAt": "2013-03-22T14:34:24.0000000" } ]}';
+                /*    var myjson = '{"sensors": [ { "MeasuredData": "434", "MeasuredAt": "2013-03-21T14:34:24.0000000"}, { "MeasuredData": "654", "MeasuredAt": "2013-03-22T14:34:24.0000000" } ]}';
                 //  var myjson = '{"sensors": [ { "MeasuredData": "434", "MeasuredAt": "12-Feb-13"}, { "MeasuredData": "654", "MeasuredAt": "14-Feb-13" } ]}';
                 json = JSON.parse(myjson); //add this line
                 console.log(json["sensors"]);
@@ -93,25 +118,25 @@ OccupOS.IndexView = Ember.View.extend({
                 x.domain(d3.extent(json["sensors"], function (d) { return d.MeasuredAt; }));
                     y.domain(d3.extent(json["sensors"], function (d) { return d.MeasuredData; }));*/
 
-            svg.append("g")
-                .attr("class", "x axis")
-                .attr("transform", "translate(0," + height + ")")
-                .call(xAxis);
-
-            svg.append("g")
-                .attr("class", "y axis")
-                .call(yAxis)
-                .append("text")
-                .attr("transform", "rotate(-90)")
-                .attr("y", 6)
-                .attr("dy", ".71em")
-                .style("text-anchor", "end")
-                .text("Price ($)");
-
-            svg.append("path")
-                .datum(json["sensors"])
-                .attr("class", "line")
-                .attr("d", line);
+            /*     svg.append("g")
+                     .attr("class", "x axis")
+                     .attr("transform", "translate(0," + height + ")")
+                     .call(xAxis);
+     
+                 svg.append("g")
+                     .attr("class", "y axis")
+                     .call(yAxis)
+                     .append("text")
+                     .attr("transform", "rotate(-90)")
+                     .attr("y", 6)
+                     .attr("dy", ".71em")
+                     .style("text-anchor", "end")
+                     .text("Price ($)");
+     
+                 svg.append("path")
+                     .datum(json["sensors"])
+                     .attr("class", "line")
+                     .attr("d", line);*/
         }
     }
 });
