@@ -25,6 +25,6 @@ OccupOS.MonitorRoute = Ember.Route.extend({
         /// </summary>
         /// <param name="controller"></param>
         /// <param name="model"></param>
-        controller.set('content', OccupOS.Sensordata.find());
+        controller.set('content', OccupOS.Sensor.find());
     }
 });

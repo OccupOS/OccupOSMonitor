@@ -36,9 +36,9 @@ OccupOS.Adapter = DS.RESTAdapter.extend({
     serializer: DS.WebAPISerializer,
     url: 'http://localhost:9226/api/v1',
     //adds api/ to lookupurl, so it works with default ASP.NET WebAPI Controllers
-    /*buildURL: function (record, suffix) {
-        return 'api/v1' + this._super(record, suffix);
-    }*/
+    buildURL: function (record, suffix) {
+        return this._super(record, suffix)+"?callback=?";
+    }
 });
 
 OccupOS.Store = DS.Store.extend({
