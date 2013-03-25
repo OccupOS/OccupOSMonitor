@@ -9,6 +9,7 @@ OccupOS.IndexView = Ember.ContainerView.extend({
     value: 'test',
     sensorsObserver: function() {
         this.rerender();
+        console.log("----------rerender-------------");
     }.observes('sensors.isLoaded'),
     LinechartView: Ember.View.extend({
         templateName: 'linechart',

@@ -7,6 +7,10 @@ OccupOS.IndexController = Ember.Controller.extend({
         //console.log('IndexController');
         //console.log(this.get('value'));
     },
+
+    test: function () {
+        console.log("test-----------");
+    }
     /*whenDataLoads: function () {
         console.log("whendataloads");
         console.log(this.get('sensors.isLoaded'));
