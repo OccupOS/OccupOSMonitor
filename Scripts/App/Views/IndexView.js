@@ -4,7 +4,7 @@
 
 OccupOS.IndexView = Ember.ContainerView.extend({
     classNames: ['monitor'],
-    childViews: ['LinechartView', 'TableView'],
+    childViews: ['LinechartView', 'TableView','LinecharttwoView'],
     sensorsBinding: 'controller.sensors',
     value: 'test',
     sensorsObserver: function() {
@@ -19,13 +19,25 @@ OccupOS.IndexView = Ember.ContainerView.extend({
                 //console.log('LinechartView');
                 //console.log(this.get('sensors'));
                 //console.log(this.get('IndexView').get('sensors.isLoaded'));
-                drawLineChart(this.get('parentView.sensors'));
+                drawLineChart(this.get('parentView.sensors'),1);
             }
         }
     }),
     TableView: Ember.View.extend({
         templateName: 'table',
         test: 'testa'
+    }),
+    LinecharttwoView: Ember.View.extend({
+        templateName: 'linechart',
+        //sensorsBinding: 'parentView.sensors',
+        didInsertElement: function didInsertElement() {
+            if (this.get('parentView.sensors.isLoaded')) {
+                //console.log('LinechartView');
+                //console.log(this.get('sensors'));
+                //console.log(this.get('IndexView').get('sensors.isLoaded'));
+                drawLineChart(this.get('parentView.sensors'),3);
+            }
+        }
     })
     /*didInsertElement: function () {
         if (this.get('sensors.isLoaded')) {
@@ -34,10 +46,22 @@ OccupOS.IndexView = Ember.ContainerView.extend({
     }*/
 });
 
-function drawLineChart(sensors) {
+function drawLineChart(sensors,id) {
     console.log('drawlinechart');
-    var sensorsArray = sensors.toArray();
-    console.log(sensorsArray[0].get("measuredAt"));
+    
+    var sensorsArrayTmp = sensors.toArray();
+    
+    var sensorsArray = new Array();
+    sensorsArrayTmp.forEach(function (d) {
+    //  console.log(d.get("sensorType"));
+        if (d.get("sensorType") == id) {
+            sensorsArray.addObject(d);
+          
+        }
+    });
+   // sensorsArray = sensors.toArray();
+  //  console.log(sensorsArray[0].get("measuredAt"));
+   // console.log(sensorsArray[0].get("measuredAt"));
 
     var margin = { top: 20, right: 20, bottom: 30, left: 50 },
      width = 960 - margin.left - margin.right,
@@ -68,7 +92,7 @@ function drawLineChart(sensors) {
       .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");*/
 
-    var svg = d3.select("#test").append("svg")
+    var svg = d3.select(".linechart").append("svg")
         .attr('class', 'graph')
         .attr('height', height + margin.top + margin.bottom)
       .append("svg")
