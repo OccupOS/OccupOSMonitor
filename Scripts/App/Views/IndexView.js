@@ -87,7 +87,7 @@ OccupOS.IndexView = Ember.View.extend({
                     .attr("y", 6)
                     .attr("dy", ".71em")
                     .style("text-anchor", "end")
-                    .text("Price ($)");
+                    .text("Price (cash)");
 
                 svg.append("path")
                     .datum(sensors["sensors"])
@@ -99,8 +99,19 @@ OccupOS.IndexView = Ember.View.extend({
     }
 });
 
-/*OccupOS.anotherObject = Ember.Object.create({
-    valueBinding: "OccupOS.IndexController.value",
-
-    // OTHER CODE FOR THIS OBJECT...
+/*OccupOS.IndexView = Ember.ContainerView.extend({
+    classNames: ['monitor'],
+    childViews: ['BarchartView', 'LinechartView', 'TableView'],
+    sensorsBinding: 'controller.sensors',
+    sensorsObserver: function() {
+        this.rerender();
+    }.observes('sensors.isLoaded'),
+    didInsertElement: function didInsertElement() {
+        console.log("didInsert");
+    },
+    LinechartView: Ember.View.extend({
+        didInsertElement: function didInsertElement() {
+            console.log("test");
+        }
+    })
 });*/
