@@ -34,8 +34,8 @@ DS.WebAPISerializer = DS.JSONSerializer.extend({
 
 OccupOS.Adapter = DS.RESTAdapter.extend({
     serializer: DS.WebAPISerializer,
-    url: 'http://localhost:9226/api/v1',
-    //adds api/ to lookupurl, so it works with default ASP.NET WebAPI Controllers
+    url: 'http://localhost:9226/',
+    namespace: 'api/v1',
     buildURL: function (record, suffix) {
         return this._super(record, suffix)+"?callback=?";
     }
