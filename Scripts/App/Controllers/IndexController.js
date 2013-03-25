@@ -4,8 +4,8 @@
 OccupOS.IndexController = Ember.Controller.extend({
     value: 'blas',
     init: function () {
-        console.log('IndexController');
-        console.log(this.get('value'));
+        //console.log('IndexController');
+        //console.log(this.get('value'));
     },
     /*whenDataLoads: function () {
         console.log("whendataloads");

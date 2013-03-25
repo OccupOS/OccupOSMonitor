@@ -4,7 +4,7 @@
 
 OccupOS.IndexView = Ember.ContainerView.extend({
     classNames: ['monitor'],
-    childViews: ['LinechartView'],
+    childViews: ['LinechartView', 'TableView'],
     sensorsBinding: 'controller.sensors',
     value: 'test',
     sensorsObserver: function() {
@@ -22,6 +22,9 @@ OccupOS.IndexView = Ember.ContainerView.extend({
             }
         }
     }),
+    TableView: Ember.View.extend({
+        
+    })
     /*didInsertElement: function () {
         if (this.get('sensors.isLoaded')) {
             drawLineChart();
