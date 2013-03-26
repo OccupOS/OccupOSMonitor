@@ -4,10 +4,10 @@
 
 OccupOS.IndexView = Ember.ContainerView.extend({
     classNames: ['monitor'],
+    //layoutName: 'rowwrapper',
     childViews: ['LinechartView', 'TableView','LinecharttwoView'],
     sensorsBinding: 'controller.sensors',
     sensorUpdatesBinding: 'controller.sensorUpdates',
-    value: 'test',
     sensorsObserver: function() {
         this.rerender();
         console.log("----------rerender-------------");
@@ -37,6 +37,7 @@ OccupOS.IndexView = Ember.ContainerView.extend({
     }),
     LinecharttwoView: Ember.View.extend({
         templateName: 'linechart',
+        //layoutName: 'rowwrapper',
         //sensorsBinding: 'parentView.sensors',
         didInsertElement: function didInsertElement() {
             if (this.get('parentView.sensors.isLoaded')) {
