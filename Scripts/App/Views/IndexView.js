@@ -13,24 +13,23 @@ OccupOS.IndexView = Ember.ContainerView.extend({
         console.log("----------rerender-------------");
     }.observes('sensors.isLoaded'),
     /*sensorUpdatesObserver: function() {
-        
+        this.get('childViews').objectAt(0).updateChart()
     }.observes('sensorUpdates.isLoaded'),*/
     LinechartView: Ember.View.extend({
         templateName: 'linechart',
+        //layoutName: 'rowwrapper',
         //sensorsBinding: 'parentView.sensors',
         didInsertElement: function didInsertElement() {
             if (this.get('parentView.sensors.isLoaded')) {
                 console.log('LinechartViewGut');
-                //console.log(this.get('sensors'));
-                //console.log(this.get('IndexView').get('sensors.isLoaded'));
                 drawLineChart(this.get('parentView.sensors'), 1);
             } else {
                 console.log('badboy');
             }
-        }/*,
+        },
         updateChart: function updateChart() {
             console.log('update chart');
-        }.observes('sensorUpdates')*/
+        }
     }),
     TableView: Ember.View.extend({
         templateName: 'table',
@@ -41,18 +40,10 @@ OccupOS.IndexView = Ember.ContainerView.extend({
         //sensorsBinding: 'parentView.sensors',
         didInsertElement: function didInsertElement() {
             if (this.get('parentView.sensors.isLoaded')) {
-                //console.log('LinechartView');
-                //console.log(this.get('sensors'));
-                //console.log(this.get('IndexView').get('sensors.isLoaded'));
                 drawLineChart(this.get('parentView.sensors'),3);
             }
         }
     })
-    /*didInsertElement: function () {
-        if (this.get('sensors.isLoaded')) {
-            drawLineChart();
-        }
-    }*/
 });
 
 function drawLineChart(sensors,id) {
