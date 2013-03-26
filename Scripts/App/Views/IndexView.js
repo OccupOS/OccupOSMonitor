@@ -12,23 +12,37 @@ OccupOS.IndexView = Ember.ContainerView.extend({
         this.rerender();
         console.log("----------rerender-------------");
     }.observes('sensors.isLoaded'),
-    /*sensorUpdatesObserver: function() {
-        this.get('childViews').objectAt(0).updateChart()
-    }.observes('sensorUpdates.isLoaded'),*/
+    sensorUpdatesObserver: function() {
+        this.get('childViews').objectAt(0).updateChart();
+        this.get('childViews').objectAt(2).updateChart();
+    }.observes('sensorUpdates.isLoaded'),
     LinechartView: Ember.View.extend({
         templateName: 'linechart',
+        chart: {}
+        ,line: {},
         //layoutName: 'rowwrapper',
         //sensorsBinding: 'parentView.sensors',
         didInsertElement: function didInsertElement() {
-            if (this.get('parentView.sensors.isLoaded')) {
+          //  if (this.get('parentView.sensors.isLoaded')) {
                 console.log('LinechartViewGut');
-                drawLineChart(this.get('parentView.sensors'), 1);
-            } else {
-                console.log('badboy');
-            }
+                drawLineChart(this.get('controller.sensors'), 1);
+         //   } else {
+         //       console.log('badboy');
+        //    }
         },
         updateChart: function updateChart() {
             console.log('update chart');
+            var content = this.get('controller.sensors');
+            var chart = this.get('chart');
+            var line = this.get('line');
+          //  var area = this.get('area');
+
+            chart.selectAll('path.line')
+                .data(content)
+                .transition()
+                .duration(500)
+                .ease('sin')
+                .attr('d', line(content));
         }
     }),
     TableView: Ember.View.extend({
@@ -37,11 +51,27 @@ OccupOS.IndexView = Ember.ContainerView.extend({
     }),
     LinecharttwoView: Ember.View.extend({
         templateName: 'linechart',
+        chart: {}
+        , line: {},
         //sensorsBinding: 'parentView.sensors',
         didInsertElement: function didInsertElement() {
-            if (this.get('parentView.sensors.isLoaded')) {
-                drawLineChart(this.get('parentView.sensors'),3);
-            }
+          //  if (this.get('parentView.sensors.isLoaded')) {
+                drawLineChart(this.get('controller.sensors'),3);
+         //   }
+        },
+        updateChart: function updateChart() {
+            console.log('update chart');
+            var content = this.get('controller.sensors');
+            var chart = this.get('chart');
+            var line = this.get('line');
+            //  var area = this.get('area');
+
+            chart.selectAll('path.line')
+                .data(content)
+                .transition()
+                .duration(500)
+                .ease('sin')
+                .attr('d', line(content));
         }
     })
 });
@@ -131,6 +161,26 @@ function drawLineChart(sensors,id) {
         .datum(sensorsArray)
         .attr("class", "line")
         .attr("d", line);
+}
+
+function updateChart() {
+    var content = this.get('content');
+    var chart = this.get('chart');
+    var line = this.get('line');
+    var area = this.get('area');
+
+    chart.selectAll('path.line')
+        .data(content)
+        .transition()
+        .duration(500)
+        .ease('sin')
+        .attr('d', line(content));
+    chart.selectAll('path.area')
+        .data(content)
+        .transition()
+        .duration(500)
+        .ease('sin')
+        .attr('d', area(content));
 }
 
 /*OccupOS.IndexView = Ember.ContainerView.extend({
