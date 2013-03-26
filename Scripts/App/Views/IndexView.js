@@ -56,6 +56,7 @@ OccupOS.IndexView = Ember.ContainerView.extend({
                         yvalues.push(parseInt(d.get('measuredData')));
                     }
                 });
+                yvalues.reverse();
                 // sensorsArray = sensors.toArray();
                 //  console.log(sensorsArray[0].get("measuredAt"));
                 // console.log(sensorsArray[0].get("measuredAt"));
@@ -247,11 +248,15 @@ OccupOS.IndexView = Ember.ContainerView.extend({
                     updateValue = parseInt(d.get('measuredData'), 10);
                 }
             });
+            if (this.get('data')[this.get('data').length - 1] == updateValue) {
+                //alert('Warning: No new Sensordata. Check your sensors');
+                return null;
+            }
             var v = this.get('data').shift(); // remove the first element of the array
             //exchange v with updateValue
+            this.get('data').push(updateValue);
             //this.get('data').push(updateValue);
-            this.get('data').push(v);
-            console.log(updateValue);
+            //console.log(updateValue);
 
 
             //Note change order of functions to make animation look a bit better
@@ -313,6 +318,7 @@ OccupOS.IndexView = Ember.ContainerView.extend({
                         yvalues.push(parseInt(d.get('measuredData')));
                     }
                 });
+                yvalues.reverse();
                 // sensorsArray = sensors.toArray();
                 //  console.log(sensorsArray[0].get("measuredAt"));
                 // console.log(sensorsArray[0].get("measuredAt"));
@@ -406,6 +412,10 @@ OccupOS.IndexView = Ember.ContainerView.extend({
                     updateValue = parseInt(d.get('measuredData'), 10);
                 }
             });
+            if (this.get('data')[this.get('data').length - 1] == updateValue) {
+                //alert('Warning: No new Sensordata. Check your sensors');
+                return null;
+            }
             var v = this.get('data').shift(); // remove the first element of the array
             //exchange v with updateValue
             //this.get('data').push(updateValue);
