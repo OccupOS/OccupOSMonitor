@@ -6,22 +6,31 @@ OccupOS.IndexView = Ember.ContainerView.extend({
     classNames: ['monitor'],
     childViews: ['LinechartView', 'TableView'],
     sensorsBinding: 'controller.sensors',
+    sensorUpdatesBinding: 'controller.sensorUpdates',
     value: 'test',
     sensorsObserver: function() {
         this.rerender();
         console.log("----------rerender-------------");
     }.observes('sensors.isLoaded'),
+    /*sensorUpdatesObserver: function() {
+        
+    }.observes('sensorUpdates.isLoaded'),*/
     LinechartView: Ember.View.extend({
         templateName: 'linechart',
         //sensorsBinding: 'parentView.sensors',
         didInsertElement: function didInsertElement() {
             if (this.get('parentView.sensors.isLoaded')) {
-                //console.log('LinechartView');
+                console.log('LinechartViewGut');
                 //console.log(this.get('sensors'));
                 //console.log(this.get('IndexView').get('sensors.isLoaded'));
                 drawLineChart(this.get('parentView.sensors'));
+            } else {
+                console.log('badboy');
             }
-        }
+        }/*,
+        updateChart: function updateChart() {
+            console.log('update chart');
+        }.observes('sensorUpdates')*/
     }),
     TableView: Ember.View.extend({
         templateName: 'table',
