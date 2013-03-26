@@ -366,8 +366,8 @@
     <Content Include="Scripts\App\Templates\Monitor\Barchart.hbs" />
     <Content Include="Scripts\App\Templates\Monitor\Table.hbs" />
     <Content Include="Scripts\App\Templates\Monitor\Linechart.hbs" />
-    <Content Include="Scripts\App\Templates\rowwrapper.hbs" />
     <Content Include="Scripts\App\Templates\Monitor\rowwrapper.hbs" />
+    <Content Include="Scripts\App\Templates\rowwrapper.hbs" />
     <None Include="Scripts\Vendor\JQuery\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\Vendor\Ember\handlebars.js" />
     <Content Include="Scripts\Vendor\Ember\handlebars.runtime-rc.3.js" />
