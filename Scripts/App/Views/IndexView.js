@@ -239,8 +239,21 @@ OccupOS.IndexView = Ember.ContainerView.extend({
         updateChart: function updateChart() {
             var graph = this.get('graph');
             var line = this.get('lineNew');
+            var id = 1;
+            var updateValue = 0;
+            this.get('parentView.sensorUpdates').toArray().forEach(function (d) {
+                //  console.log(d.get("sensorType"));
+                if (d.get("sensorType") == id) {
+                    updateValue = parseInt(d.get('measuredData'), 10);
+                }
+            });
             var v = this.get('data').shift(); // remove the first element of the array
+            //exchange v with updateValue
+            //this.get('data').push(updateValue);
             this.get('data').push(v);
+            console.log(updateValue);
+
+
             //Note change order of functions to make animation look a bit better
             graph.selectAll("path.line")
                 .data([this.get('data')]) // set the new data
@@ -385,7 +398,17 @@ OccupOS.IndexView = Ember.ContainerView.extend({
         updateChart: function updateChart() {
             var graph = this.get('graph');
             var line = this.get('lineNew');
+            var id = 3;
+            var updateValue = 0;
+            this.get('parentView.sensorUpdates').toArray().forEach(function (d) {
+                //  console.log(d.get("sensorType"));
+                if (d.get("sensorType") == id) {
+                    updateValue = parseInt(d.get('measuredData'), 10);
+                }
+            });
             var v = this.get('data').shift(); // remove the first element of the array
+            //exchange v with updateValue
+            //this.get('data').push(updateValue);
             this.get('data').push(v);
             //Note change order of functions to make animation look a bit better
             graph.selectAll("path.line")
