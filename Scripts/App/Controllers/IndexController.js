@@ -26,13 +26,13 @@ OccupOS.IndexController = Ember.Controller.extend({
                         self.set('light', parseInt(d.get('measuredData'), 10));
                         break;
                     case 5:
-                        self.set('humidity', parseFloat(d.get('measuredData')));
+                        self.set('humidity', parseFloat(d.get('measuredData')).toFixed(2));
                         break;
                     case 7:
-                        self.set('pressure', parseFloat(d.get('measuredData')));
+                        self.set('pressure', parseFloat(d.get('measuredData')).toFixed(2));
                         break;
                     case 9:
-                        self.set('temp', parseFloat(d.get('measuredData')));
+                        self.set('temp', parseFloat(d.get('measuredData')).toFixed(2));
                         break;
                     default:
                        break;

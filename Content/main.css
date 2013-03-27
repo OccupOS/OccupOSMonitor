@@ -97,6 +97,7 @@ h6 {
     width: 100%;
 }
 
+/*Change table for small screens */
 @media screen and (max-width: 480px) {
     /* Force table to not be like tables anymore */
     table.table-responsive,
