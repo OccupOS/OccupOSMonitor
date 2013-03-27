@@ -259,8 +259,16 @@ OccupOS.IndexView = Ember.ContainerView.extend({
                     }
                 });
                 if (this.get('data')[this.get('data').length - 1] == updateValue) {
+                    var alert = d3.select(".alert");
+                    alert.style("display", "");
                     //alert('Warning: No new Sensordata. Check your sensors');
                     //return null;
+                }
+                else
+                {
+                    var alert = d3.select(".alert");
+                    alert.style("display", "none");
+                    
                 }
                 var v = this.get('data').shift(); // remove the first element of the array
                 //exchange v with updateValue
@@ -424,8 +432,13 @@ OccupOS.IndexView = Ember.ContainerView.extend({
                     }
                 });
                 if (this.get('data')[this.get('data').length - 1] == updateValue) {
-                    //alert('Warning: No new Sensordata. Check your sensors');
-                    //return null;
+                    var alert = d3.select(".alert");
+                    alert.style("display", "");
+                }
+                else
+                {
+                    var alert = d3.select(".alert");
+                    alert.style("display", "none");
                 }
                 var v = this.get('data').shift(); // remove the first element of the array
                 //exchange v with updateValue
