@@ -10,14 +10,14 @@ OccupOS.IndexView = Ember.ContainerView.extend({
     sensorsBinding: 'controller.sensors',
     sensorsArray: null,
     sensorUpdatesBinding: 'controller.sensorUpdates',
-    sensorsObserver: function() {
+    sensorsObserver: function () {
         if (this.get('sensors.isLoaded')) {
             this.rerender();
             console.log("----------rerender-------------");
             this.set('sensorsArray', this.get('sensors').toArray());
         }
     }.observes('sensors.isLoaded'),
-    sensorUpdatesObserver: function() {
+    sensorUpdatesObserver: function () {
         if (this.get('sensorUpdates.isLoaded')) {
             this.get('childViews').objectAt(0).get('childViews').objectAt(1).updateChart();
             this.get('childViews').objectAt(1).get('childViews').objectAt(0).updateChart();
@@ -47,12 +47,12 @@ OccupOS.IndexView = Ember.ContainerView.extend({
                 if (this.get('parentView.parentView.sensors.isLoaded')) {
                     console.log('chart two: draw now');
                     //drawLineChart(this.get('parentView.parentView.sensors'),3);
-                    var id = 1;
+                    var id = 3;
                     var sensorsArrayTmp = this.get('parentView.parentView.sensors').toArray();
 
                     var margin = { top: 20, right: 20, bottom: 30, left: 50 },
-                    width = 960 - margin.left - margin.right,
-                    height = 500 - margin.top - margin.bottom;
+                    width = 560 - margin.left - margin.right,
+                    height = 350 - margin.top - margin.bottom;
                     var parseDate = d3.time.format.iso.parse;
 
                     var sensorsArray = new Array(),
@@ -250,7 +250,7 @@ OccupOS.IndexView = Ember.ContainerView.extend({
             updateChart: function updateChart() {
                 var graph = this.get('graph');
                 var line = this.get('lineNew');
-                var id = 1;
+                var id = 3;
                 var updateValue = 0;
                 this.get('parentView.parentView.sensorUpdates').toArray().forEach(function (d) {
                     //  console.log(d.get("sensorType"));
@@ -259,16 +259,16 @@ OccupOS.IndexView = Ember.ContainerView.extend({
                     }
                 });
                 if (this.get('data')[this.get('data').length - 1] == updateValue) {
-                    var alert = d3.select(".alert");
-                    alert.style("display", "");
+                    //console.log($('.alert'));
+                    //$('.alert').show();
+                    var warning = '<div class ="alert" id="warn-light"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>Warning!</strong> The lightsensor did not change. Check your sensors!.</div>';
+                    $("#warn-light").remove();
+                    $('.container:first').prepend(warning);
+                    return null;
                     //alert('Warning: No new Sensordata. Check your sensors');
                     //return null;
-                }
-                else
-                {
-                    var alert = d3.select(".alert");
-                    alert.style("display", "none");
-                    
+                } else {
+                    $("#warn-light").remove();
                 }
                 var v = this.get('data').shift(); // remove the first element of the array
                 //exchange v with updateValue
@@ -318,7 +318,7 @@ OccupOS.IndexView = Ember.ContainerView.extend({
                 if (this.get('parentView.parentView.sensors.isLoaded')) {
                     console.log('chart two: draw now');
                     //drawLineChart(this.get('parentView.parentView.sensors'),3);
-                    var id = 3;
+                    var id = 9;
                     var sensorsArrayTmp = this.get('parentView.parentView.sensors').toArray();
 
                     var margin = { top: 20, right: 20, bottom: 30, left: 50 },
@@ -423,7 +423,7 @@ OccupOS.IndexView = Ember.ContainerView.extend({
             updateChart: function updateChart() {
                 var graph = this.get('graph');
                 var line = this.get('lineNew');
-                var id = 3;
+                var id = 9;
                 var updateValue = 0;
                 this.get('parentView.parentView.sensorUpdates').toArray().forEach(function (d) {
                     //  console.log(d.get("sensorType"));
@@ -432,18 +432,19 @@ OccupOS.IndexView = Ember.ContainerView.extend({
                     }
                 });
                 if (this.get('data')[this.get('data').length - 1] == updateValue) {
-                    var alert = d3.select(".alert");
-                    alert.style("display", "");
-                }
-                else
-                {
-                    var alert = d3.select(".alert");
-                    alert.style("display", "none");
+                    var warning = '<div class ="alert" id="warn-temp"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>Warning!</strong> The temperature did not change. Check your sensors!.</div>';
+                    $("#warn-temp").remove();
+                    $('.container:first').prepend(warning);
+                    return null;
+                    //alert('Warning: No new Sensordata. Check your sensors');
+                    //return null;
+                } else {
+                    $("#warn-temp").remove();
                 }
                 var v = this.get('data').shift(); // remove the first element of the array
                 //exchange v with updateValue
                 //this.get('data').push(updateValue);
-                this.get('data').push(v);
+                this.get('data').push(updateValue);
                 //Note change order of functions to make animation look a bit better
                 graph.selectAll("path.line")
                     .data([this.get('data')]) // set the new data
@@ -470,11 +471,11 @@ OccupOS.IndexView = Ember.ContainerView.extend({
 });
 
 
-function drawLineChart(sensors,id) {
+function drawLineChart(sensors, id) {
     console.log('drawlinechart');
-    
+
     var sensorsArrayTmp = sensors.toArray();
-    
+
     var margin = { top: 20, right: 20, bottom: 30, left: 50 },
     width = 960 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
@@ -485,7 +486,7 @@ function drawLineChart(sensors,id) {
         yvalues = new Array();
     console.log('1');
     sensorsArrayTmp.forEach(function (d) {
-    //  console.log(d.get("sensorType"));
+        //  console.log(d.get("sensorType"));
         if (d.get("sensorType") == id) {
             sensorsArray.addObject(d);
             xvalues.push(parseDate(d.get('measuredAt')));
@@ -493,13 +494,13 @@ function drawLineChart(sensors,id) {
         }
     });
     console.log('2');
-   // sensorsArray = sensors.toArray();
-  //  console.log(sensorsArray[0].get("measuredAt"));
-   // console.log(sensorsArray[0].get("measuredAt"));
+    // sensorsArray = sensors.toArray();
+    //  console.log(sensorsArray[0].get("measuredAt"));
+    // console.log(sensorsArray[0].get("measuredAt"));
 
     //var x = d3.time.scale.utc().
     //  .range([0, width]);
-    var x = d3.scale.linear().domain([0, xvalues.length-1]).range([0, width]);
+    var x = d3.scale.linear().domain([0, xvalues.length - 1]).range([0, width]);
     //var x = d3.time.scale.utc().domain(d3.extent(xvalues)).range([0, width]);
     console.log('extent___________:');
     console.log(d3.extent(xvalues));
@@ -521,7 +522,7 @@ function drawLineChart(sensors,id) {
     //.y(function (d) { return y(d.get("measuredData")); });
     //.x(function (d, i) { console.log('line x bla'); console.log(d); console.log(i); console.log(x(i)); return 178*i; })
       .x(function (d, i) { return x(i); })
-    .y(function (d) {  return y(d); })
+    .y(function (d) { return y(d); })
     .interpolate("basis");
     //this.set('line', line);
 
