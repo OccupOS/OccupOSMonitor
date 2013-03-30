@@ -22,14 +22,12 @@ namespace OccupOSMonitor.App_Start {
         /// </param>
         public static void RegisterBundles(BundleCollection bundles) {
             bundles.Add(new Bundle("~/bundles/base", new JsMinify()).Include(
-                        "~/Scripts/Vendor/JQuery/jquery-{version}.js",
+                        "~/Scripts/Vendor/JQuery/jquery-2.0.0b2.js",
                         "~/Scripts/Vendor/Twitter/Dev-3.0/bootstrap.js",
                 //"~/Scripts/Vendor/D3/d3.v3.js",
                         "~/Scripts/Vendor/Ember/handlebars.runtime.js",
                         "~/Scripts/Vendor/Ember/ember.js",
-                        "~/Scripts/Vendor/Ember/ember-data.js",
-                        "~/Scripts/Vendor/Ember/webapi_serializer.js",
-                        "~/Scripts/Vendor/Ember/webapi_adapter.js"));
+                        "~/Scripts/Vendor/Ember/ember-data.js"));
 
             /*bundles.Add(
                 new Bundle("~/bundles/templates", new OccupOSMonitor.App_Start.EmberHandlebarsBundleTransform()).Include

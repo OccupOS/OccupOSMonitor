@@ -44,5 +44,5 @@ OccupOS.Adapter = DS.RESTAdapter.extend({
 OccupOS.Store = DS.Store.extend({
     adapter: OccupOS.Adapter.create(),
     //adapter: webApiAdapter,
-    revision: 11
+    revision: 12
 });

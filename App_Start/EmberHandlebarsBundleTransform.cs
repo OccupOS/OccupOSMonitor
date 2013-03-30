@@ -32,7 +32,7 @@ namespace OccupOSMonitor.App_Start {
         public void Process(BundleContext context, BundleResponse response) {
             var builder = new TemplateBuilder();
             foreach (var assetFile in response.Files) {
-                var path = context.HttpContext.Server.MapPath(assetFile.VirtualPath);
+                var path = context.HttpContext.Server.MapPath(assetFile.IncludedVirtualPath);
                 var template = File.ReadAllText(path);
                 var templateName = Path.GetFileNameWithoutExtension(path).ToCamelCase();
                 /*System.Diagnostics.Debug.WriteLine("-----------------------");
