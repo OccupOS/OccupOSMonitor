@@ -1,1 +1,0 @@
-﻿OccupOS.AuthRoute = Ember.Route.extend();
