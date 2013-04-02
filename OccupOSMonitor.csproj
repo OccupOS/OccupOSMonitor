@@ -374,8 +374,8 @@
     <Content Include="Scripts\Vendor\Ember\handlebars.js" />
     <Content Include="Scripts\Vendor\Ember\handlebars.runtime-rc2.js" />
     <Content Include="Scripts\Vendor\Ember\handlebars.runtime.js" />
-    <Content Include="Scripts\Vendor\Ember\Plugins\easyForm-0.1.1.js" />
-    <Content Include="Scripts\Vendor\Ember\Plugins\easyForm-0.1.1.min.js" />
+    <Content Include="Scripts\Vendor\Ember\Plugins\ember-easyForm-0.3.0.js" />
+    <Content Include="Scripts\Vendor\Ember\Plugins\ember-validations-0.2.1.js.sql" />
     <Content Include="Scripts\Vendor\JQuery\jquery-1.9.1.js" />
     <Content Include="Scripts\Vendor\JQuery\jquery-1.9.1.min.js" />
     <Content Include="Scripts\Vendor\JQuery\jquery-2.0.0b2.js" />
