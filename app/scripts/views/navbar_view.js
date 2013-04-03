@@ -2,5 +2,5 @@
 /// <reference path="../App.js" />
 
 OccupOS.NavbarView = Ember.View.extend({
-    templateName: 'Navbar'
+    templateName: 'navbar'
 })
