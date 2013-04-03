@@ -4,6 +4,8 @@ Still haveily WIP and sorting some things out. But you can get started already a
 
 ##Getting Started (for Dev's)
 
+###Basic Setup
+
 Install [Yeoman and its dependencies](http://yeoman.io/)
 
 Install dependencies as well as packages (i.e. javascript libraries such as jQuery, etc.):
@@ -21,3 +23,8 @@ Fire up the server (it will compile the templates and build the whole ember-app 
 ```
 $ grunt server
 ```
+
+###Getting it to play nicely with OccupOSAPI
+
+If you run everything locally, you need to download and setup the OccupOSAPI and if you run it in Visual Studio, you should literally be able to simply
+hit the "Start" button, this should fire up the API on localhost:9226. In case it is a different port, you have to adapt the store.js file
