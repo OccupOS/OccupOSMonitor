@@ -2,8 +2,6 @@
 
 ##Getting Started (for Dev's)
 
-## Getting started
-
 Install [Yeoman and its dependencies](http://yeoman.io/)
 
 Install dependencies as well as packages (i.e. javascript libraries such as jQuery, etc.):
