@@ -1,12 +1,13 @@
 ﻿require('app/components/jquery/jquery');
-require('app/components/handlebars/handlebars.runtime');
+require('app/components/handlebars/handlebars-runtime');
 require('app/components/ember/ember');
-require('app/components/ember-data');
+require('app/components/ember-data-APIv11');
 require('app/scripts/templates');
+
 
 Ember.LOG_BINDINGS = true;
 
-var OccupOS = Ember.Application.create({
+window.OccupOS = Ember.Application.create({
     VERSION: '0.1.0',
     //possibly change to OccupOS Monitor
     name: 'OccupOS',
