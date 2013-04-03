@@ -28,15 +28,15 @@ OccupOS.IndexView = Ember.ContainerView.extend({
         }
     }.observes('sensorUpdates.isLoaded'),
     RowOneView: Ember.ContainerView.extend({
-        //classNames: ['row'],
+        classNames: ['row'],
         childViews: ['TableView', 'LinechartView'],
         TableView: Ember.View.extend({
-            classNames: ['span6'],
+            classNames: ['col-span-6'],
             templateName: 'table',
             test: 'testa'
         }),
         LinechartView: Ember.View.extend({
-            classNames: ['span6'],
+            classNames: ['col-span-6'],
             templateName: 'linechart',
             lineChartNr: 0,
             chartTitle: 'Light Intensity History',
@@ -64,7 +64,7 @@ OccupOS.IndexView = Ember.ContainerView.extend({
         classNames: ['row'],
         childViews: ['LinecharttwoView'/*, 'ForceChartView'*/],
         LinecharttwoView: Ember.View.extend({
-            classNames: ['span12'],
+            classNames: ['col-span-12'],
             templateName: 'linechart',
             chartTitle: 'Temperature History',
             lineChartNr: 1,
