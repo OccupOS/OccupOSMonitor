@@ -5,15 +5,17 @@
 OccupOS.IndexView = Ember.ContainerView.extend({
     classNames: ['monitor'],
     //layoutName: 'rowwrapper',
-    //childViews: ['TableView', 'LinechartView','LinecharttwoView'],
+ //   childViews: ['TableView', 'LinechartView','LinecharttwoView'],
     childViews: ['RowOneView', 'RowTwoView'],
     sensorsBinding: 'controller.sensors',
     sensorsisLoaded: false,
     sensorUpdatesBinding: 'controller.sensorUpdates',
+    sensorsArray:{},
     sensorsObserver: function () {
         if (this.get('sensors.isLoaded')) {
             //convert sensors immediately to array, so it can be used straight away
             this.set('sensorsisLoaded', true);
+
             this.set('sensors', this.get('sensors').toArray());
             this.rerender();
             console.log("----------rerender-------------");
@@ -21,8 +23,7 @@ OccupOS.IndexView = Ember.ContainerView.extend({
         }
     }.observes('sensors.isLoaded'),
     sensorUpdatesObserver: function () {
-        if (this.get('sensorUpdates.isLoaded')) {
-            console.log('sensorUpdate');
+        if (this.get('sensorUpdates.isLoaded')) {            
             this.get('childViews').objectAt(0).get('childViews').objectAt(1).updateChart();
             this.get('childViews').objectAt(1).get('childViews').objectAt(0).updateChart();
         }
@@ -40,6 +41,7 @@ OccupOS.IndexView = Ember.ContainerView.extend({
             templateName: 'linechart',
             lineChartNr: 0,
             chartTitle: 'Light Intensity History',
+            sensorsArray:{},
             sensorType: 3,
             chart: {},
             line: null,
@@ -53,10 +55,12 @@ OccupOS.IndexView = Ember.ContainerView.extend({
             didInsertElement: function didInsertElement() {
                 if (this.get('parentView.parentView.sensorsisLoaded')) {
                     createLineChart(this, this.get('parentView.parentView.sensors'), this.get('sensorType'), this.get('lineChartNr'), 560);
+                    
                 }
             },
             updateChart: function updateChart() {
-                updateLineChart(this);
+            updateLineChartSimulation(this);  // If Server is not accessable!!
+            //updateLineChartFromServer(this);
             }
         }),
     }),
@@ -67,6 +71,7 @@ OccupOS.IndexView = Ember.ContainerView.extend({
             classNames: ['col-span-12'],
             templateName: 'linechart',
             chartTitle: 'Temperature History',
+            sensorsArray:{},
             lineChartNr: 1,
             sensorType: 9,
             chart: {},
@@ -84,7 +89,8 @@ OccupOS.IndexView = Ember.ContainerView.extend({
                 }
             },
             updateChart: function updateChart() {
-                updateLineChart(this);
+                updateLineChartSimulation(this);
+                //updateLineChartFromServer(this);
             }
         }),
         ForceChartView: Ember.View.extend({
@@ -145,7 +151,7 @@ OccupOS.IndexView = Ember.ContainerView.extend({
 
 //possibly move into different file!
 function createLineChart(currentView, sensors, id, lineChartNr, width) {
-        
+   console.log('creating line chart');     
         //values for width and height should be (more) dynamical, based on how big you actually want the graph. Seems useful for better font-rendering.
     var margin = { top: 20, right: 20, bottom: 30, left: 50 },
         height = 350 - margin.top - margin.bottom;
@@ -157,24 +163,25 @@ function createLineChart(currentView, sensors, id, lineChartNr, width) {
     var sensorsArray = new Array(),
           xvalues = new Array(),
             yvalues = new Array();
+
         sensors.forEach(function (d) {
-            //  console.log(d.get("sensorType"));
+
             if (d.get("sensorType") == id) {
                 // might need that to display date/time on x-Axis. Hopefully not though.
-                //sensorsArray.addObject(d);
+                sensorsArray.addObject(d);
                 xvalues.push(parseDate(d.get('measuredAt')));
                 yvalues.push(parseInt(d.get('measuredData')));
             }
         });
         //the latest data should be at the end rather than at the beginning for d3js
-        yvalues.reverse();
-        
-        var x = d3.scale.linear().domain([0, xvalues.length - 1]).range([0, width]);
+      //  yvalues.reverse();
+        sensorsArray.reverse();
+       currentView.set('sensorsArray',sensorsArray);
+     //   var x = d3.scale.linear().domain([0, xvalues.length - 1]).range([0, width]);
         // Used for displaying date/time
-        //var x = d3.time.scale.utc().domain(d3.extent(xvalues)).range([0, width]);
+        var x = d3.time.scale.utc().domain(d3.extent(xvalues)).range([0, width]);
         var y = d3.scale.linear().domain(d3.extent(yvalues))
             .range([height, 0]);
-
         var xAxis = d3.svg.axis()
             .scale(x)
             .orient("bottom");
@@ -186,11 +193,11 @@ function createLineChart(currentView, sensors, id, lineChartNr, width) {
         //TO-DO: Show date/time for x-Axis
         var line = d3.svg.line()
             //.x(function (d) { console.log('line x bla'); console.log(d); return x(d.get("measuredData")); })
-        //.y(function (d) { return y(d.get("measuredData")); });
-        //.x(function (d, i) { console.log('line x bla'); console.log(d); console.log(i); console.log(x(i)); return 178*i; })
-          .x(function (d, i) { return x(i); })
-        .y(function (d) { return y(d); })
-        .interpolate("basis");
+        .y(function (d) { return y(d.get('measuredData')); })
+        .x(function (d) { return x(parseDate(d.get('measuredAt'))); })
+    //      .x(function (d, i) { return x(i); })
+    //    .y(function (d) { return y(d); })
+        .interpolate("linear");
         //this.set('line', line);
 
         //var svg = d3.select("#test").append("svg")
@@ -202,6 +209,7 @@ function createLineChart(currentView, sensors, id, lineChartNr, width) {
     //TO-DO: Fix that d3.select command. Possible have a parameter. 
     //Or use selectAll and check which .linechart-div doesn't have any svg elements yet.
     var svg = d3.select(d3.selectAll(".linechart")[0][lineChartNr]).append("svg")
+            .data([sensorsArray])
             .attr('class', 'graph')
             .attr('height', height + margin.top + margin.bottom)
           .append("svg")
@@ -213,7 +221,12 @@ function createLineChart(currentView, sensors, id, lineChartNr, width) {
         svg.append("g")
             .attr("class", "x axis")
             .attr("transform", "translate(0," + height + ")")
-            .call(xAxis);
+            .call(xAxis)
+            .append("text")
+            .attr("x",width)
+            .attr("dx",".10em")
+            .style("text-anchor","end")
+            .text("Time period");
 
         svg.append("g")
             .attr("class", "y axis")
@@ -228,8 +241,10 @@ function createLineChart(currentView, sensors, id, lineChartNr, width) {
         svg.append("path")
             //.datum(sensorsArray)
             .attr("class", "line")
-            .attr("d", line(yvalues));
+            .attr("d", line);
         
+
+         
         currentView.set('data', yvalues);
         currentView.set('line', line);
         currentView.set('x', x);
@@ -240,9 +255,11 @@ function createLineChart(currentView, sensors, id, lineChartNr, width) {
 function updateLineChart(currentView) {
     var graph = currentView.get('graph'),
         line = currentView.get('line'),
-        id = currentView.get('id'),
+        id = currentView.get('sensorType'),
         data = currentView.get('data'),
         updateValue = 0;
+        sensorsArray = currentView.get('parentView.parentView.sensorsArray');
+  //      console.log(currentView.get('parentView.parentView.sensorUpdates').toArray());
     currentView.get('parentView.parentView.sensorUpdates').toArray().forEach(function (d) {
         //  console.log(d.get("sensorType"));
         if (d.get("sensorType") == id) {
@@ -265,7 +282,7 @@ function updateLineChart(currentView) {
     data.push(v);
     //Note change order of functions to make animation look a bit better
     graph.selectAll("path.line")
-        .data([data]) // set the new data
+        .data([sensorsArray]) // set the new data
         .transition() // start a transition to bring the new value into view
         .duration(500) // for this demo we want a continual slide so set this to the same as the setInterval amount below
         .ease("sin")
@@ -283,4 +300,86 @@ function updateLineChart(currentView) {
             .attr("transform", "translate(" + this.get('x')(0) + ")"); 
 
     */
+}
+
+
+function updateLineChartSimulation(currentView) {
+    var graph = currentView.get('graph'),
+        line = currentView.get('line'),
+        id = currentView.get('sensorType'),
+        data = currentView.get('data'),
+        updateValue = 0,
+        sensorsArray = currentView.get('sensorsArray');
+    var tmp = [];
+    var curr = [];
+    sensorsArray.forEach(function(d) {
+        curr.push(d.get('measuredData'));
+    });
+
+    //console.log(curr[0]);
+    var v1 = curr.shift();
+    curr.push(v1);
+
+    var i = 0;   
+    //Note change order of functions to make animation look a bit better
+    graph.selectAll("path.line")
+        .data([sensorsArray]) // set the new data
+        .transition() // start a transition to bring the new value into view
+        .duration(500) // for this demo we want a continual slide so set this to the same as the setInterval amount below
+        .ease("sin")
+        .attr("d", line);
+    sensorsArray.forEach(function(d){
+        d.set('measuredData',curr[i]);
+        i++;   
+    });
+
+ currentView.set('sensorsArray',sensorsArray);
+}
+
+function updateLineChartFromServer(currentView) {
+    var graph = currentView.get('graph'),
+        line = currentView.get('line'),
+        id = currentView.get('sensorType'),
+        data = currentView.get('data'),
+        updateValue = 0,
+        sensorsArray = currentView.get('sensorsArray'),
+        updates = currentView.get('parentView.parentView.sensorUpdates').toArray();
+    var tmp = [];
+    var curr = [];
+    sensorsArray.forEach(function(d) {
+        curr.push(d.get('measuredData'));
+    });
+
+    console.log(updates[0].get('measuredData'));
+    var v1 = curr.shift();
+    updates.forEach(function(d) {
+        if(d.get('sensorType')==id)
+            if(parseInt(d.get('measuredData'),10)==curr[curr.length-1])
+            {
+                console.log('warning');
+                var warning = '<div class ="alert" id="warn-temp"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>Warning!</strong> The temperature did not change. Check your sensors!.</div>';
+                $('.container:first').prepend(warning);
+            }
+            else
+            {
+                $("#warn-temp").remove();
+            }
+            curr.push(d.get('measuredData'));
+    });
+
+
+    var i = 0;   
+    //Note change order of functions to make animation look a bit better
+    graph.selectAll("path.line")
+        .data([sensorsArray]) // set the new data
+        .transition() // start a transition to bring the new value into view
+        .duration(500) // for this demo we want a continual slide so set this to the same as the setInterval amount below
+        .ease("sin")
+        .attr("d", line);
+    sensorsArray.forEach(function(d){
+        d.set('measuredData',curr[i]);
+        i++;   
+    });
+
+ currentView.set('sensorsArray',sensorsArray);
 }
