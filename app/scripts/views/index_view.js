@@ -110,7 +110,7 @@ function createLineChart(currentView, width) {
     currentView.set('graph', svg);
 }
 
-function updateLineChart(currentView, simulationMode) {
+function updateLineChart(currentView) { //add parameter simulationMode
     var graph = currentView.get('graph'),
         line = currentView.get('line'),
         id = currentView.get('sensorType'),
@@ -306,6 +306,7 @@ OccupOS.IndexView = Ember.ContainerView.extend({
                     updateLineChartSimulation(this);  // If Server is not accessable!!
                 } else {
                     updateLineChartFromServer(this);
+                    updateLineChart(this);
                 }
             }
         }),
