@@ -2,6 +2,7 @@
 
 //TO-DO: this.resource() for router
 OccupOS.Router.map(function () {
+	'use strict';
     /*this.resource('monitor', { path: '/monitor' }, function () {
         this.route('barchart');
     });*/

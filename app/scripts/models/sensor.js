@@ -1,7 +1,7 @@
 ﻿OccupOS.Sensor = DS.Model.extend({
     measuredData: DS.attr('string'),
     measuredAt: DS.attr('date'),
-    sensorType: DS.attr('number') 
+    sensorType: DS.attr('number')
    //s measuredData2: DS.attr('string')
     /*sendAt:                   DS.attr('date'),
     polledAt:                 DS.attr('date'),

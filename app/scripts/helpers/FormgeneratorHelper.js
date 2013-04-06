@@ -1,18 +1,19 @@
-﻿Ember.Handlebars.registerBoundHelper('control-group', function (options) {
+﻿/*Ember.Handlebars.registerBoundHelper('control-group', function (options) {
+    'use strict';
     //var escaped = Handlebars.Utils.escapeExpression(value).capitalize();
     var name = options.hash.name.capitalize(),
-        prependId = "",
+        prependId = '',
         display = name,
-        type = "text";
+        type = 'text';
 
-    if (!(typeof options.hash.prependId === 'undefined')) {
+    if (typeof options.hash.prependId !== 'undefined') {
         prependId = options.hash.prependId;
     }
-    if (!(typeof options.hash.display === 'undefined')) {
+    if (typeof options.hash.display !== 'undefined') {
         display = options.hash.display;
     }
     
-    if (!(typeof options.hash.type === 'undefined')) {
+    if (typeof options.hash.type !== 'undefined') {
         type = options.hash.type;
     }
     
@@ -23,4 +24,4 @@
                     <input class="ember-view ember-text-field" type="text" id="input' + prependId + name + '" placeholder="' + display + '" /> \
                 </div> \
             </div>');
-});
+});*/

@@ -10,26 +10,13 @@ Ember.LOG_BINDINGS = true;
 
 window.OccupOS = Ember.Application.create({
     VERSION: '0.1.0',
-    //possibly change to OccupOS Monitor
+    //possibly change to OccupOSMonitor
     name: 'OccupOS',
     author: 'Markus Padourek',
     LOG_TRANSITIONS: true,
+    //change to a proper rootElement
     rootElement: '#test',
-    ready: function () {
-     //   console.log("---------test----------");
-  //      console.log(OccupOS.IndexController.set('sensors', OccupOS.Sensor.find({})));
-      //  setInterval( function() {
-      //      controller.set('sensors', OccupOS.Sensor.find({}))
-    //    }, 5000) 
-    }
 });
-
-/*Ember.onerror = function (error) {
-    Em.$.ajax('/error-notification', 'POST', {
-        stack: error.stack,
-        otherInformation: 'exception message'
-    });
-};*/
 
 require('app/scripts/store');
 require('app/scripts/models/sensor');

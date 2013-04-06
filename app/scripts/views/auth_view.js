@@ -7,8 +7,9 @@ OccupOS.AuthView = Ember.View.extend({
     password: '',
     fullName: '',
     
-    submit: function(event) {
-        var self = this;
+    submit: function (event) {
+        'use strict';
+        //var self = this;
         console.log(event.target);
         console.log($(event.target));
         console.log($(event.target).serialize());
@@ -27,4 +28,4 @@ OccupOS.AuthView = Ember.View.extend({
               self.get("parentView").hideNew();
           }); */
     }
-})
+});

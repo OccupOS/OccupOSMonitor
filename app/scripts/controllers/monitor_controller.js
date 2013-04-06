@@ -1,5 +1,5 @@
 ﻿OccupOS.MonitorController = Ember.Controller.extend({
-    bla: "test",
+    bla: 'test',
     /*data: 'Hello World',
     content: [],
     

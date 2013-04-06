@@ -1,12 +1,15 @@
 {
+    "camelcase": true,
     "node": true,
+    "jquery": true,
     "browser": true,
     "es5": true,
     "esnext": true,
     "bitwise": true,
-    "camelcase": true,
     "curly": true,
     "eqeqeq": true,
+    "boss": true,
+    "eqnull": true,
     "immed": true,
     "indent": 4,
     "latedef": true,
@@ -18,5 +21,13 @@
     "unused": true,
     "strict": true,
     "trailing": true,
-    "smarttabs": true
+    "smarttabs": true,
+    "globals": {
+        "require": true,
+        "Handlebars": true,
+        "Ember": true,
+        "DS": true,
+        "d3": true,
+        "OccupOS": true
+    }
 }

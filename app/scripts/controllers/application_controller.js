@@ -2,5 +2,5 @@
 /// <reference path="../App.js" />
 
 OccupOS.ApplicationController = Ember.Controller.extend({
-    name: "work"
+    name: 'work'
 });

@@ -2,7 +2,7 @@
     test: 'Hello World'
 });*/
 
-OccupOS.SensordataController = Em.ArrayController.extend({
+OccupOS.SensordataController = Ember.ArrayController.extend({
     sortProperties: ['measuredAt']
 });
 

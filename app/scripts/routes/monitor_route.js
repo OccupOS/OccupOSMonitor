@@ -18,13 +18,8 @@ OccupOS.MonitorRoute = Ember.Route.extend({
 
         @method setupController
     */
-    setupController: function (controller, model) {
-        // Note: The following comments are just for VS2012 intellisense. Consider using it (or not).
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="controller"></param>
-        /// <param name="model"></param>
+    setupController: function (controller) {
+        'use strict';
         controller.set('content', OccupOS.Sensor.find());
     }
 });

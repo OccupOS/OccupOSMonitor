@@ -3,4 +3,4 @@
 
 OccupOS.NavbarView = Ember.View.extend({
     templateName: 'navbar'
-})
+});

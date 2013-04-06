@@ -1,3 +1,5 @@
+/*jshint camelcase: false */
+/*global module:false */
 // Generated on 2013-04-02 using generator-webapp 0.1.5
 'use strict';
 var lrSnippet = require('grunt-contrib-livereload/lib/utils').livereloadSnippet;
@@ -51,12 +53,12 @@ module.exports = function (grunt) {
             options: {
                 includeSourceURL: true
             },
-                'app/scripts/application.js': 'app/scripts/app.js'
+            'app/scripts/application.js': 'app/scripts/app.js'
         },
         ember_templates: {
             compile: {
                 options: {
-                    templateName: function(sourceFile) {
+                    templateName: function (sourceFile) {
                         return sourceFile.replace(/app\/scripts\/templates\//, '');
                     }
                 },
@@ -125,6 +127,8 @@ module.exports = function (grunt) {
             all: [
                 'Gruntfile.js',
                 '<%= yeoman.app %>/scripts/{,*/}*.js',
+                '!<%= yeoman.app %>/scripts/application.js',
+                '!<%= yeoman.app %>/scripts/templates.js',
                 '!<%= yeoman.app %>/scripts/vendor/*',
                 'test/spec/{,*/}*.js'
             ]
@@ -244,6 +248,7 @@ module.exports = function (grunt) {
         }
 
         grunt.task.run([
+            'jshint',
             'ember_templates',
             'neuter',
             'clean:server',
@@ -264,6 +269,7 @@ module.exports = function (grunt) {
     ]);
 
     grunt.registerTask('build', [
+        'jshint',
         'clean:dist',
         'compass:dist',
         'useminPrepare',
