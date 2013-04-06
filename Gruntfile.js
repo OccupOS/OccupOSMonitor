@@ -280,4 +280,11 @@ module.exports = function (grunt) {
         'test',
         'build'
     ]);
+
+    // Travis CI task.
+    grunt.registerTask('travis', [
+        'ember_templates',
+        'neuter'
+    ]);
+
 };
