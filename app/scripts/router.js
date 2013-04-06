@@ -5,7 +5,7 @@ OccupOS.Router.map(function () {
     /*this.resource('monitor', { path: '/monitor' }, function () {
         this.route('barchart');
     });*/
-    //this.route('monitor', { path: '/monitor' });
+    this.route('monitor', { path: '/monitor' });
     /*this.resource('monitor', function () {
         
     });*/

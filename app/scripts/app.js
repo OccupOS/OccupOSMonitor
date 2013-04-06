@@ -3,6 +3,7 @@ require('app/components/handlebars/handlebars-runtime');
 require('app/components/ember/ember');
 require('app/components/ember-data-APIv11');
 require('app/scripts/templates');
+require('app/components/d3/d3');
 
 
 Ember.LOG_BINDINGS = true;
@@ -16,10 +17,10 @@ window.OccupOS = Ember.Application.create({
     rootElement: '#test',
     ready: function () {
      //   console.log("---------test----------");
-       // console.log(OccupOS.IndexController.set('sensors', OccupOS.Sensor.find({})));
-     //   setInterval( function() {
-       //     controller.set('sensors', OccupOS.Sensor.find({}))
-        //}, 5000)
+  //      console.log(OccupOS.IndexController.set('sensors', OccupOS.Sensor.find({})));
+      //  setInterval( function() {
+      //      controller.set('sensors', OccupOS.Sensor.find({}))
+    //    }, 5000) 
     }
 });
 

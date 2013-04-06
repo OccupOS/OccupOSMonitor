@@ -34,7 +34,7 @@ DS.WebAPISerializer = DS.JSONSerializer.extend({
 
 OccupOS.Adapter = DS.RESTAdapter.extend({
     serializer: DS.WebAPISerializer,
-    url: 'http://localhost:9226/',
+    url: 'http://localhost:9226',
     namespace: 'api/v1',
     buildURL: function (record, suffix) {
         return this._super(record, suffix)+"?callback=?";

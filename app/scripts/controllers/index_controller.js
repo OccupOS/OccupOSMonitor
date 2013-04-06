@@ -13,10 +13,12 @@ OccupOS.IndexController = Ember.Controller.extend({
     },
 
     sensorsObserver: function () {
+        
         if (this.get('sensorUpdates.isLoaded')) {
+            console.log('from controller');
             var self = this;
+         //   console.log(this.get('sensorUpdates').toArray().length);
             this.get('sensorUpdates').toArray().forEach(function (d) {
-                //  console.log(d.get("sensorType"));
                 var sensorType = parseInt(d.get("sensorType"), 10);
                 switch(sensorType){
                     case 1:

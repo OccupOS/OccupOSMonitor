@@ -245,12 +245,14 @@ module.exports = function (grunt) {
 
         grunt.task.run([
             'ember_templates',
+            'neuter',
             'clean:server',
             'compass:server',
             'livereload-start',
             'connect:livereload',
             'open',
             'watch'
+
         ]);
     });
 
@@ -271,7 +273,8 @@ module.exports = function (grunt) {
         'cssmin',
         //'uglify',
         'copy',
-        'usemin'
+        'usemin',
+        'neuter'
     ]);
 
     grunt.registerTask('default', [
