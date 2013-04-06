@@ -116,37 +116,9 @@ function updateLineChart(currentView, simulationMode) { //add parameter simulati
         graphSensorType = currentView.get('sensorType'),
         sensorsArray = currentView.get('sensorsArray'),
         updateValue = 0,
-        sensorsUpdates = currentView.get('parentView.parentView.sensorUpdates');
+        sensorsUpdates = currentView.get('parentView.parentView.sensorUpdates'),
+        measuredDataArray = [];
 
-  //      console.log(currentView.get('parentView.parentView.sensorUpdates').toArray());
-    if (simulationMode) {
-        var lastElement = sensorsArray.shift();
-        sensorsArray.push(lastElement);
-    }else{
-        sensorsUpdates().forEach(function (d) {
-            //  console.log(d.get('sensorType'));
-            if (d.get('sensorType') === graphSensorType) {
-                updateValue = parseInt(d.get('measuredData'), 10);
-                //updateTime = d.get('measuredAt');
-            }
-        });
-
-        if (yvalues[yvalues.length - 1] === updateValue) {
-            var warning = '<div class ="alert" id="warn-temp"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>Warning!</strong> The temperature did not change. Check your sensors!.</div>';
-            $('#warn-temp').remove();
-            $('.container:first').prepend(warning);
-            return null;
-            //alert('Warning: No new Sensordata. Check your sensors');
-            //return null;
-        } else {
-            $('#warn-temp').remove();
-        }
-    }
-    //var v = yvalues.shift(); // remove the first element of the array
-    //exchange v with updateValue
-    //this.get('data').push(updateValue);
-    //yvalues.push(v);
-    //Note change order of functions to make animation look a bit better
     graph.selectAll('path.line')
         .data([sensorsArray]) // set the new data
         .transition() // start a transition to bring the new value into view
@@ -155,6 +127,46 @@ function updateLineChart(currentView, simulationMode) { //add parameter simulati
         .attr('d', line);
 
     graph.select(".yaxis").transition().duration(10).call(yAxis);
+
+        sensorsArray.forEach(function (d) {
+        measuredDataArray.push(d.get('measuredData'));
+    });
+
+  //      console.log(currentView.get('parentView.parentView.sensorUpdates').toArray());
+    if (simulationMode) {
+        var firstElement = measuredDataArray.shift();
+        measuredDataArray.push(firstElement);
+    }else{
+       measuredDataArray.shift();
+    updates.forEach(function (d) {
+        if (d.get('sensorType') === graphSensorType) {
+            if (parseInt(d.get('measuredData'), 10)  === measuredDataArray[measuredDataArray.length - 1]) {
+                console.log('warning');
+                $('#warn-temp').remove();
+                var warning = '<div class ="alert" id="warn-temp"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>Warning!</strong> The temperature did not change. Check your sensors!.</div>';
+                $('.container:first').prepend(warning);
+            } else {
+                $('#warn-temp').remove();
+            }
+            measuredDataArray.push(d.get('measuredData'));
+        }
+    });
+    }
+
+    var i = 0;
+
+    sensorsArray.forEach(function (d) {
+        d.set('measuredData', measuredDataArray[i]);
+        i++;
+    });
+
+    currentView.set('sensorsArray', sensorsArray);
+    //var v = yvalues.shift(); // remove the first element of the array
+    //exchange v with updateValue
+    //this.get('data').push(updateValue);
+    //yvalues.push(v);
+    //Note change order of functions to make animation look a bit better
+   
 
     /* Other possible animation:
 
