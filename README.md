@@ -1,4 +1,4 @@
-#OccupOSMonitor
+#OccupOSMonitor [![Build Status](https://api.travis-ci.org/OccupOS/OccupOSMonitor.png)](https://api.travis-ci.org/OccupOS/OccupOSMonitor)
 
 Still haveily WIP and sorting some things out. But you can get started already and play with the app around if you want.
 
