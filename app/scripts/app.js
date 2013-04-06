@@ -28,7 +28,6 @@ require('app/scripts/views/index_view');
 require('app/scripts/controllers/application_controller');
 require('app/scripts/controllers/navbar_controller');
 require('app/scripts/controllers/index_controller');
-require('app/scripts/controllers/sensor_controller');
 
 require('app/scripts/router');
 require('app/scripts/routes/index_route');

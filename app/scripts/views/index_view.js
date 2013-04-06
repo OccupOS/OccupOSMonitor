@@ -103,42 +103,49 @@ function createLineChart(currentView, width) {
         
 
          
-    currentView.set('data', yvalues);
+    currentView.set('yvalues', yvalues);
     currentView.set('line', line);
     currentView.set('x', x);
     currentView.set('y', y);
     currentView.set('graph', svg);
 }
 
-function updateLineChart(currentView) { //add parameter simulationMode
+function updateLineChart(currentView, simulationMode) { //add parameter simulationMode
     var graph = currentView.get('graph'),
         line = currentView.get('line'),
-        id = currentView.get('sensorType'),
-        data = currentView.get('data'),
+        graphSensorType = currentView.get('sensorType'),
+        sensorsArray = currentView.get('sensorsArray'),
         updateValue = 0,
-        sensorsArray = currentView.get('parentView.parentView.sensorsArray');
+        sensorsUpdates = currentView.get('parentView.parentView.sensorUpdates');
 
   //      console.log(currentView.get('parentView.parentView.sensorUpdates').toArray());
-    sensorsArray.toArray().forEach(function (d) {
-        //  console.log(d.get('sensorType'));
-        if (d.get('sensorType') === id) {
-            updateValue = parseInt(d.get('measuredData'), 10);
+    if (simulationMode) {
+        var lastElement = sensorsArray.shift();
+        sensorsArray.push(lastElement);
+    }else{
+        sensorsUpdates().forEach(function (d) {
+            //  console.log(d.get('sensorType'));
+            if (d.get('sensorType') === graphSensorType) {
+                updateValue = parseInt(d.get('measuredData'), 10);
+                //updateTime = d.get('measuredAt');
+            }
+        });
+
+        if (yvalues[yvalues.length - 1] === updateValue) {
+            var warning = '<div class ="alert" id="warn-temp"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>Warning!</strong> The temperature did not change. Check your sensors!.</div>';
+            $('#warn-temp').remove();
+            $('.container:first').prepend(warning);
+            return null;
+            //alert('Warning: No new Sensordata. Check your sensors');
+            //return null;
+        } else {
+            $('#warn-temp').remove();
         }
-    });
-    if (data[data.length - 1] === updateValue) {
-        var warning = '<div class ="alert" id="warn-temp"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>Warning!</strong> The temperature did not change. Check your sensors!.</div>';
-        $('#warn-temp').remove();
-        $('.container:first').prepend(warning);
-        //return null;
-        //alert('Warning: No new Sensordata. Check your sensors');
-        //return null;
-    } else {
-        $('#warn-temp').remove();
     }
-    var v = data.shift(); // remove the first element of the array
+    //var v = yvalues.shift(); // remove the first element of the array
     //exchange v with updateValue
     //this.get('data').push(updateValue);
-    data.push(v);
+    //yvalues.push(v);
     //Note change order of functions to make animation look a bit better
     graph.selectAll('path.line')
         .data([sensorsArray]) // set the new data
@@ -146,6 +153,8 @@ function updateLineChart(currentView) { //add parameter simulationMode
         .duration(500) // for this demo we want a continual slide so set this to the same as the setInterval amount below
         .ease('sin')
         .attr('d', line);
+
+    graph.select(".yaxis").transition().duration(10).call(yAxis);
 
     /* Other possible animation:
 
@@ -203,7 +212,7 @@ function updateLineChartFromServer(currentView) {
         //data = currentView.get('data'),
         //updateValue = 0,
         sensorsArray = currentView.get('sensorsArray'),
-        updates = currentView.get('parentView.parentView.sensorUpdates').toArray(),
+        updates = currentView.get('parentView.parentView.sensorUpdates'),
         //tmp = [],
         curr = [];
     sensorsArray.forEach(function (d) {
@@ -235,6 +244,7 @@ function updateLineChartFromServer(currentView) {
         .duration(500) // for this demo we want a continual slide so set this to the same as the setInterval amount below
         .ease('sin')
         .attr('d', line);
+
     sensorsArray.forEach(function (d) {
         d.set('measuredData', curr[i]);
         i++;
@@ -249,13 +259,12 @@ OccupOS.IndexView = Ember.ContainerView.extend({
  //   childViews: ['TableView', 'LinechartView','LinecharttwoView'],
     childViews: ['RowOneView', 'RowTwoView'],
     sensorsBinding: 'controller.sensors',
-    sensorsisLoaded: false,
+    sensorsIsLoaded: false,
     sensorUpdatesBinding: 'controller.sensorUpdates',
-    sensorsArray: {},
     sensorsObserver: function () {
         if (this.get('sensors.isLoaded')) {
             //convert sensors immediately to array, so it can be used straight away
-            this.set('sensorsisLoaded', true);
+            this.set('sensorsIsLoaded', true);
 
             this.set('sensors', this.get('sensors').toArray());
             this.rerender();
@@ -265,6 +274,8 @@ OccupOS.IndexView = Ember.ContainerView.extend({
     }.observes('sensors.isLoaded'),
     sensorUpdatesObserver: function () {
         if (this.get('sensorUpdates.isLoaded')) {
+            this.set('sensorUpdates', this.get('sensorUpdates').toArray());
+
             this.get('childViews').objectAt(0).get('childViews').objectAt(1).updateChart();
             this.get('childViews').objectAt(1).get('childViews').objectAt(0).updateChart();
         }
@@ -282,7 +293,6 @@ OccupOS.IndexView = Ember.ContainerView.extend({
             templateName: 'linechart',
             lineChartNr: 0,
             chartTitle: 'Light Intensity History',
-            sensorsArray: {},
             sensorType: 3,
             chart: {},
             line: null,
@@ -291,23 +301,18 @@ OccupOS.IndexView = Ember.ContainerView.extend({
             y: null,
             data: null,
             lineNew: null,
+            sensorsArray: {},
             //layoutName: 'rowwrapper',
             //sensorsBinding: 'parentView.parentView.sensors',
             didInsertElement: function didInsertElement() {
-                if (this.get('parentView.parentView.sensorsisLoaded')) {
+                if (this.get('parentView.parentView.sensorsIsLoaded')) {
                     createLineChart(this, 560);
                     
                 }
             },
             updateChart: function updateChart() {
-                var simulation = true;
-                
-                if (simulation) {
-                    updateLineChartSimulation(this);  // If Server is not accessable!!
-                } else {
-                    updateLineChartFromServer(this);
-                    updateLineChart(this);
-                }
+                var simulationMode = true;
+                updateLineChart(this, simulationMode);
             }
         }),
     }),
@@ -318,7 +323,6 @@ OccupOS.IndexView = Ember.ContainerView.extend({
             classNames: ['col-span-12'],
             templateName: 'linechart',
             chartTitle: 'Temperature History',
-            sensorsArray: {},
             lineChartNr: 1,
             sensorType: 9,
             chart: {},
@@ -326,17 +330,19 @@ OccupOS.IndexView = Ember.ContainerView.extend({
             graph: null,
             x: null,
             y: null,
-            data: null,
+            yvalues: null,
             lineNew: null,
+            sensorsArray: {},
             //layoutName: 'rowwrapper',
             //sensorsBinding: 'parentView.parentView.sensors',
             didInsertElement: function didInsertElement() {
-                if (this.get('parentView.parentView.sensorsisLoaded')) {
+                if (this.get('parentView.parentView.sensorsIsLoaded')) {
                     createLineChart(this);
                 }
             },
             updateChart: function updateChart() {
-                updateLineChartSimulation(this);
+                var simulationMode = true;
+                updateLineChart(this, simulationMode);
                 //updateLineChartFromServer(this);
             }
         }),
