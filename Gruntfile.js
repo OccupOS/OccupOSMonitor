@@ -49,6 +49,14 @@ module.exports = function (grunt) {
                 tasks: ['livereload']
             }
         },
+        bower: {
+            install: {
+                options: {
+                    targetDir: '<%= yeoman.app %>/lib'
+                }
+            //just run 'grunt bower:install' and you'll see files from your Bower packages in lib directory
+            }
+        },
         neuter: {
             options: {
                 includeSourceURL: true
@@ -232,12 +240,12 @@ module.exports = function (grunt) {
                     ]
                 }]
             }
-        },
+        }/*,
         bower: {
             all: {
                 rjsConfig: '<%= yeoman.app %>/scripts/main.js'
             }
-        }
+        }*/
     });
 
     grunt.renameTask('regarde', 'watch');
@@ -249,6 +257,7 @@ module.exports = function (grunt) {
 
         grunt.task.run([
             'jshint',
+            'bower',
             'ember_templates',
             'neuter',
             'clean:server',
@@ -292,6 +301,8 @@ module.exports = function (grunt) {
 
     // Travis CI task.
     grunt.registerTask('travis', [
+        'jshint',
+        'bower',
         'ember_templates',
         'neuter'
     ]);

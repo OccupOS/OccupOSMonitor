@@ -1,9 +1,9 @@
-﻿require('app/components/jquery/jquery');
-require('app/components/handlebars/handlebars-runtime');
-require('app/components/ember/ember');
-require('app/components/ember-data-APIv11');
+﻿require('app/lib/jquery/jquery');
+require('app/lib/nightlies/handlebars-runtime');
+require('app/lib/ember/ember');
+require('app/lib/nightlies/ember-data-APIv11');
 require('app/scripts/templates');
-require('app/components/d3/d3');
+require('app/lib/d3/d3');
 
 
 Ember.LOG_BINDINGS = true;

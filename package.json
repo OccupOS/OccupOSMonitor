@@ -18,7 +18,6 @@
     "grunt-contrib-clean": "0.4.0",
     "grunt-contrib-htmlmin": "0.1.1",
     "grunt-contrib-livereload": "0.1.1",
-    "grunt-bower-hooks": "~0.2.0",
     "grunt-usemin": "~0.1.9",
     "grunt-regarde": "~0.1.1",
     "grunt-open": "~0.2.0",
