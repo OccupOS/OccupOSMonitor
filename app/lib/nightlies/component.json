@@ -1,9 +1,0 @@
-{
-  "name": "nightlies",
-  "version": "0.0.0",
-  "commit": "23878a12a0633d54f9339d2f937da3c23a7521e3",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Globegitter/OccupOS-Dependency-Nightlies.git"
-  }
-}
