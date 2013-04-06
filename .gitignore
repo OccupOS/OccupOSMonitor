@@ -3,5 +3,6 @@ dist
 .tmp
 .sass-cache
 app/components
+app/lib
 app/scripts/templates.js
 app/scripts/application.js
