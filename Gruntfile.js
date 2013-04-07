@@ -79,9 +79,10 @@ module.exports = function (grunt) {
         Runs all .html files found in the test/ directory through PhantomJS.
         Prints the report in your terminal.
         */
-        //qunit: {
-        //    all: ['test/**/*.html']
-        //},
+        qunit: {
+            all: ['test/**/*.html'],
+            runner: ['test/runner.html']
+        },
         connect: {
             options: {
                 port: 9000,
@@ -240,15 +241,35 @@ module.exports = function (grunt) {
                     ]
                 }]
             }
-        }/*,
-        bower: {
-            all: {
-                rjsConfig: '<%= yeoman.app %>/scripts/main.js'
-            }
-        }*/
+        },
+        build_test_runner_file: {
+            all: ['test/**/*test.js']
+        }
+    });
+
+    grunt.event.on('qunit.testDone', function (name, failed, passed, total) {
+        grunt.log.ok('Finished test: ' + name + ', failed: ' + failed + ', passed: ' + passed + ', total: ' + total);
     });
 
     grunt.renameTask('regarde', 'watch');
+
+    /*
+     A task to build the test runner html file that get place in
+     /test so it will be picked up by the qunit task. Will
+     place a single <script> tag into the body for every file passed to
+     its coniguration above in the grunt.initConfig above.
+     */
+    grunt.registerMultiTask('build_test_runner_file', 'Creates a test runner file.', function () {
+        var tmpl = grunt.file.read('test/lib/runner.html.tmpl');
+        var renderingContext = {
+            data: {
+                files: this.filesSrc.map(function (fileSrc) {
+                    return fileSrc.replace('test/', '');
+                })
+            }
+        };
+        grunt.file.write('test/runner.html', grunt.template.process(tmpl, renderingContext));
+    });
 
     grunt.registerTask('server', function (target) {
         if (target === 'dist') {
@@ -272,9 +293,12 @@ module.exports = function (grunt) {
 
     grunt.registerTask('test', [
         'clean:server',
-        'compass',
         'connect:test',
-        'neuter'
+        'jshint',
+        'ember_templates',
+        'neuter',
+        'build_test_runner_file',
+        'qunit:runner'
     ]);
 
     grunt.registerTask('build', [
@@ -300,11 +324,11 @@ module.exports = function (grunt) {
     ]);
 
     // Travis CI task.
-    grunt.registerTask('travis', [
-        'jshint',
-        'bower',
-        'ember_templates',
-        'neuter'
-    ]);
+    grunt.registerTask('travis', function () {
+        grunt.task.run([
+            'bower',
+            'test'
+        ]);
+    });
 
 };

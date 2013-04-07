@@ -115,7 +115,7 @@ function updateLineChart(currentView, simulationMode) { //add parameter simulati
         line = currentView.get('line'),
         graphSensorType = currentView.get('sensorType'),
         sensorsArray = currentView.get('sensorsArray'),
-        updateValue = 0,
+        //updateValue = 0,
         sensorsUpdates = currentView.get('parentView.parentView.sensorUpdates'),
         measuredDataArray = [];
 
@@ -126,9 +126,10 @@ function updateLineChart(currentView, simulationMode) { //add parameter simulati
         .ease('sin')
         .attr('d', line);
 
-    graph.select(".yaxis").transition().duration(10).call(yAxis);
+    // To-Do: update the x-Axis
+    // graph.select('.xaxis').transition().duration(10).call(xAxis);
 
-        sensorsArray.forEach(function (d) {
+    sensorsArray.forEach(function (d) {
         measuredDataArray.push(d.get('measuredData'));
     });
 
@@ -136,21 +137,21 @@ function updateLineChart(currentView, simulationMode) { //add parameter simulati
     if (simulationMode) {
         var firstElement = measuredDataArray.shift();
         measuredDataArray.push(firstElement);
-    }else{
-       measuredDataArray.shift();
-    updates.forEach(function (d) {
-        if (d.get('sensorType') === graphSensorType) {
-            if (parseInt(d.get('measuredData'), 10)  === measuredDataArray[measuredDataArray.length - 1]) {
-                console.log('warning');
-                $('#warn-temp').remove();
-                var warning = '<div class ="alert" id="warn-temp"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>Warning!</strong> The temperature did not change. Check your sensors!.</div>';
-                $('.container:first').prepend(warning);
-            } else {
-                $('#warn-temp').remove();
+    } else {
+        measuredDataArray.shift();
+        sensorsUpdates.forEach(function (d) {
+            if (d.get('sensorType') === graphSensorType) {
+                if (parseInt(d.get('measuredData'), 10)  === measuredDataArray[measuredDataArray.length - 1]) {
+                    console.log('warning');
+                    $('#warn-temp').remove();
+                    var warning = '<div class ="alert" id="warn-temp"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>Warning!</strong> The temperature did not change. Check your sensors!.</div>';
+                    $('.container:first').prepend(warning);
+                } else {
+                    $('#warn-temp').remove();
+                }
+                measuredDataArray.push(d.get('measuredData'));
             }
-            measuredDataArray.push(d.get('measuredData'));
-        }
-    });
+        });
     }
 
     var i = 0;
@@ -183,7 +184,7 @@ function updateLineChart(currentView, simulationMode) { //add parameter simulati
 }
 
 
-function updateLineChartSimulation(currentView) {
+/*function updateLineChartSimulation(currentView) {
     var graph = currentView.get('graph'),
         line = currentView.get('line'),
         //id = currentView.get('sensorType'),
@@ -232,7 +233,7 @@ function updateLineChartFromServer(currentView) {
     });
 
     console.log(updates[0].get('measuredData'));
-    /*var v1 = */
+    //var v1 =
     curr.shift();
     updates.forEach(function (d) {
         if (d.get('sensorType') === id) {
@@ -263,7 +264,7 @@ function updateLineChartFromServer(currentView) {
     });
 
     currentView.set('sensorsArray', sensorsArray);
-}
+}    */
 
 OccupOS.IndexView = Ember.ContainerView.extend({
     classNames: ['monitor'],
@@ -298,7 +299,9 @@ OccupOS.IndexView = Ember.ContainerView.extend({
         TableView: Ember.View.extend({
             classNames: ['col-span-6'],
             templateName: 'table',
-            test: 'testa'
+            didInsertElement: function didInsertElement() {
+                $('.table').dataTable();
+            }
         }),
         LinechartView: Ember.View.extend({
             classNames: ['col-span-6'],

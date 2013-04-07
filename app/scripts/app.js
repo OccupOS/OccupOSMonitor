@@ -4,6 +4,8 @@ require('app/lib/ember/ember');
 require('app/lib/nightlies/ember-data-APIv11');
 require('app/scripts/templates');
 require('app/lib/d3/d3');
+require('app/lib/nightlies/jquery-dataTables');
+require('app/lib/nightlies/bootstrap-dataTables');
 
 
 Ember.LOG_BINDINGS = true;
@@ -15,8 +17,12 @@ window.OccupOS = Ember.Application.create({
     author: 'Markus Padourek',
     LOG_TRANSITIONS: true,
     //change to a proper rootElement
-    rootElement: '#test',
+    rootElement: window.TESTING ? '#qunit-fixture' : '#occupos-app'
 });
+
+if (window.TESTING) {
+    window.OccupOS.deferReadiness();
+}
 
 require('app/scripts/store');
 require('app/scripts/models/sensor');
