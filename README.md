@@ -8,17 +8,25 @@ Still haveily WIP and sorting some things out. But you can get started already a
 
 Install [Yeoman and its dependencies](http://yeoman.io/)
 
-Install dependencies/build-tools via:
+Install dependencies/build-tools (e.g. grunt):
 
 ```
 $ npm install
 ```
 
-Fire up the server (it will automatically download js-dependencies via bower, compile the templates and build the whole ember-app):
+Fire up the server:
 
 ```
 $ grunt server
 ```
+This will automatically download js-dependencies via bower, compile the templates and build the whole Ember-app.
+
+To run all existing unit-tests use:
+
+```
+$ grunt test
+```
+This will use qunit + sinon.js as a basis and phantomjs to run them on the commandline.
 
 ###Getting it to play nicely with OccupOSAPI
 
