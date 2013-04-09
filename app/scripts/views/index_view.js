@@ -216,7 +216,9 @@ OccupOS.IndexView = Ember.ContainerView.extend({
         TableView: Ember.View.extend({
             classNames: ['col-span-6'],
             templateName: 'table',
-            test: 'testa'
+            didInsertElement: function didInsertElement() {
+                $('.table').dataTable();
+            }
         }),
         LinechartView: Ember.View.extend({
             classNames: ['col-span-6'],
