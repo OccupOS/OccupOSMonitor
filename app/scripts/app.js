@@ -1,7 +1,7 @@
-﻿require('app/lib/jquery/jquery');
+﻿require('app/lib/nightlies/jquery');
 require('app/lib/nightlies/handlebars-runtime');
 require('app/lib/ember/ember');
-require('app/lib/nightlies/ember-data-APIv11');
+require('app/lib/ember-data/index');
 require('app/scripts/templates');
 require('app/lib/d3/d3');
 require('app/lib/nightlies/jquery-dataTables');
