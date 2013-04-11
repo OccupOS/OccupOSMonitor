@@ -7,6 +7,7 @@ OccupOS.IndexController = Ember.Controller.extend({
     temp: '-',
     pressure: '-',
     humidity: '-',
+    selection: null,
     init: function () {
         //console.log('IndexController');
         //console.log(this.get('value'));
@@ -44,7 +45,11 @@ OccupOS.IndexController = Ember.Controller.extend({
                 //}
             });
         }
-    }.observes('sensorUpdates.isLoaded')
+    }.observes('sensorUpdates.isLoaded'),
+    selectionObserver: function () {
+        'use strict';
+       // console.log(this.get('selection'));
+    }.observes('selection.isLoaded')
     /*whenDataLoads: function () {
         console.log("whendataloads");
         console.log(this.get('sensors.isLoaded'));

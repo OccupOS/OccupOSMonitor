@@ -8,7 +8,6 @@ function createLineChart(currentView, width) {
     console.log('creating line chart');
     //Setting default value for width
     width = typeof width !== 'undefined' ? width : 960;
-
     //values for width and height should be (more) dynamical, based on how big you actually want the graph. Seems useful for better font-rendering.
     var margin = { top: 20, right: 20, bottom: 30, left: 50 },
         height = 350 - margin.top - margin.bottom,
@@ -187,7 +186,7 @@ OccupOS.IndexView = Ember.ContainerView.extend({
     classNames: ['monitor'],
     //layoutName: 'rowwrapper',
     //   childViews: ['TableView', 'LinechartView','LinecharttwoView'],
-    childViews: ['RowOneView', 'RowTwoView'],
+    childViews: ['RowOneView', 'RowTwoView', 'RowThreeView'],
     sensorsBinding: 'controller.sensors',
     sensorsIsLoaded: false,
     sensorUpdatesBinding: 'controller.sensorUpdates',
@@ -332,4 +331,14 @@ OccupOS.IndexView = Ember.ContainerView.extend({
             }
         })
     }),
+    RowThreeView: Ember.ContainerView.extend({
+        classNames: ['row'],
+        childViews: ['SelectView'],
+        SelectView: Ember.Select.extend({
+            contentBinding: 'OccupOS.PeriodController',
+            selectionBinding: 'OccupOS.PeriodController.selection',
+            optionLabelPath: 'content.periodTime',
+            optionValuePath: 'content.id'
+        })
+    })
 });

@@ -26,6 +26,7 @@ if (window.TESTING) {
 
 require('app/scripts/store');
 require('app/scripts/models/sensor');
+require('app/scripts/models/period');
 
 require('app/scripts/views/application_view');
 require('app/scripts/views/navbar_view');
@@ -34,6 +35,8 @@ require('app/scripts/views/index_view');
 require('app/scripts/controllers/application_controller');
 require('app/scripts/controllers/navbar_controller');
 require('app/scripts/controllers/index_controller');
+require('app/scripts/controllers/period_controller');
+require('app/scripts/controllers/selected_period_controller');
 
 require('app/scripts/router');
 require('app/scripts/routes/index_route');
