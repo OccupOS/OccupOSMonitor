@@ -21,7 +21,7 @@ $ grunt server
 ```
 This will automatically download js-dependencies via bower, compile the templates and build the whole Ember-app.
 
-To run all existing unit-tests use:
+To run all existing unit-tests use (you need to run grunt bower beforehand, if you haven't run grunt server):
 
 ```
 $ grunt test
