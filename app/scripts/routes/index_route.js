@@ -36,7 +36,7 @@
             }
             console.log(period);
             controller.set('sensorUpdates', OccupOS.Sensor.find({ 'limit': '1'}));
-        }, 5000);
+        }, timeInterval);
     },/*
     redirect: function () {
         this.transitionTo('monitor');

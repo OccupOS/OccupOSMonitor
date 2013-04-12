@@ -32,7 +32,7 @@ function createLineChart(currentView, width) {
     });
     //the latest data should be at the end rather than at the beginning for d3js
     //  yvalues.reverse();
-   // sensorsArray.reverse();
+    sensorsArray.reverse();
     currentView.set('sensorsArray', sensorsArray);
     //   var x = d3.scale.linear().domain([0, xvalues.length - 1]).range([0, width]);
     // Used for displaying date/time
