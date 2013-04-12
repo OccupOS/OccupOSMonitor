@@ -179,7 +179,7 @@ function updateLineChart(currentView, simulationMode) { //add parameter simulati
             sensorsArray.addObject(d);
             xvalues.push(parseDate(d.get('measuredAt')));
             yvalues.push(parseInt(d.get('measuredData'), 10));
-    });
+        });
     currentView.set('xvalues',xvalues);
     currentView.set('yvalues',yvalues);
     //var v = yvalues.shift(); // remove the first element of the array

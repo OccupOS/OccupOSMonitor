@@ -18,15 +18,20 @@
                 }, 2000);
                 switch(period)
                 {
-                    case 1: timeInterval = oneMinute; // Update every one minute 
+                case 1:
+                    timeInterval = oneMinute; // Update every one minute 
                     break;
-                    case 2: timeInterval = oneMinute*10; // every 10 mins
+                case 2:
+                    timeInterval = oneMinute*10; // every 10 mins
                     break;
-                    case 3: timeInterval = oneHour*3; // every 3 hours
+                case 3:
+                    timeInterval = oneHour*3; // every 3 hours
                     break;
-                    case 4: timeInterval = oneHour*12;
+                case 4:
+                    timeInterval = oneHour*12;
                     break;
-                    case 5: timeInterval = oneDay*2;
+                case 5:
+                    timeInterval = oneDay*2;
                 }
             }
             console.log(period);
