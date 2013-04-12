@@ -111,7 +111,7 @@ function createLineChart(currentView, width) {
     currentView.set('xvalues',xvalues);
 }
 
-function updateLineChart(currentView, simulationMode) { //add parameter simulationMode
+function updateLineChart(currentView, simulationMode,width) { //add parameter simulationMode
     var graph = currentView.get('graph'),
         line = currentView.get('line'),
         graphSensorType = currentView.get('sensorType'),
@@ -122,14 +122,8 @@ function updateLineChart(currentView, simulationMode) { //add parameter simulati
     // updateValue = 0,
         sensorUpdates = currentView.get('parentView.parentView.sensorUpdates'),
         measuredDataArray = [];
-
-    graph.selectAll('path.line')
-        .data([sensorsArray]) // set the new data
-        .transition() // start a transition to bring the new value into view
-        .duration(500) // for this demo we want a continual slide so set this to the same as the setInterval amount below
-        .ease('sin')
-        .attr('d', line);
-
+    var margin = { top: 20, right: 20, bottom: 30, left: 50 },
+        height = 350 - margin.top - margin.bottom;
     //graph.select('.yaxis').transition().duration(10).call(yAxis);
 
     sensorsArray.forEach(function (d) {
@@ -172,16 +166,36 @@ function updateLineChart(currentView, simulationMode) { //add parameter simulati
         d.set('measuredData', measuredDataArray[i]);
         i++;
     });*/
+    graph.selectAll('path.line')
+        .data([sensorsArray]) // set the new data
+        .transition() // start a transition to bring the new value into view
+        .duration(500) // for this demo we want a continual slide so set this to the same as the setInterval amount below
+        .ease('sin')
+        .attr('d', line);
 
     currentView.set('sensorsArray', sensorsArray);
     sensorsArray.forEach(function (d) {
             // might need that to display date/time on x-Axis. Hopefully not though.
-            sensorsArray.addObject(d);
+            //sensorsArray.addObject(d);
             xvalues.push(parseDate(d.get('measuredAt')));
             yvalues.push(parseInt(d.get('measuredData'), 10));
         });
-    currentView.set('xvalues',xvalues);
-    currentView.set('yvalues',yvalues);
+
+    var x = d3.time.scale().domain(d3.extent(xvalues)).range([0, width]);
+    var y = d3.scale.linear().domain(d3.extent(yvalues))
+        .range([height, 0]);
+    var xAxis = d3.svg.axis()
+        .scale(x)
+        .orient('bottom');
+
+    var yAxis = d3.svg.axis()
+        .scale(y)
+        .orient('left');
+
+    graph.select('.xaxis').transition().duration(10).call(xAxis);
+    graph.select('.yaxis').transition().duration(10).call(yAxis);
+    //currentView.set('xvalues',xvalues);
+    //currentView.set('yvalues',yvalues);
     //var v = yvalues.shift(); // remove the first element of the array
     //exchange v with updateValue
     //this.get('data').push(updateValue);
@@ -265,8 +279,8 @@ OccupOS.IndexView = Ember.ContainerView.extend({
                 }
             },
             updateChart: function updateChart() {
-                var simulationMode = true;
-                updateLineChart(this, simulationMode);
+                var simulationMode = false;
+                updateLineChart(this, simulationMode,560);
             }
         }),
     }),
@@ -296,7 +310,7 @@ OccupOS.IndexView = Ember.ContainerView.extend({
             },
             updateChart: function updateChart() {
                 var simulationMode = true;
-                updateLineChart(this, simulationMode);
+                updateLineChart(this, simulationMode,960);
                 //updateLineChartFromServer(this);
             }
         }),
