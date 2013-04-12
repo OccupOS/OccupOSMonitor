@@ -32,11 +32,12 @@ function createLineChart(currentView, width) {
     });
     //the latest data should be at the end rather than at the beginning for d3js
     //  yvalues.reverse();
-    sensorsArray.reverse();
+   // sensorsArray.reverse();
     currentView.set('sensorsArray', sensorsArray);
     //   var x = d3.scale.linear().domain([0, xvalues.length - 1]).range([0, width]);
     // Used for displaying date/time
-    var x = d3.time.scale.utc().domain(d3.extent(xvalues)).range([0, width]);
+    console.log(d3.extent(xvalues));
+    var x = d3.time.scale().domain(d3.extent(xvalues)).range([0, width]);
     var y = d3.scale.linear().domain(d3.extent(yvalues))
         .range([height, 0]);
     var xAxis = d3.svg.axis()
@@ -107,6 +108,7 @@ function createLineChart(currentView, width) {
     currentView.set('x', x);
     currentView.set('y', y);
     currentView.set('graph', svg);
+    currentView.set('xvalues',xvalues);
 }
 
 function updateLineChart(currentView, simulationMode) { //add parameter simulationMode
@@ -114,6 +116,9 @@ function updateLineChart(currentView, simulationMode) { //add parameter simulati
         line = currentView.get('line'),
         graphSensorType = currentView.get('sensorType'),
         sensorsArray = currentView.get('sensorsArray'),
+        xvalues = [],
+        yvalues = [],
+        parseDate = d3.time.format.iso.parse,
     // updateValue = 0,
         sensorUpdates = currentView.get('parentView.parentView.sensorUpdates'),
         measuredDataArray = [];
@@ -130,16 +135,24 @@ function updateLineChart(currentView, simulationMode) { //add parameter simulati
     sensorsArray.forEach(function (d) {
         measuredDataArray.push(d.get('measuredData'));
     });
+    //var firstElement = sensorsArray.shift();
 
     //      console.log(currentView.get('parentView.parentView.sensorUpdates').toArray());
     if (simulationMode) {
         var firstElement = measuredDataArray.shift();
         measuredDataArray.push(firstElement);
+        var i = 0;
+        sensorsArray.forEach(function (d) {
+            d.set('measuredData', measuredDataArray[i]);
+            i++;
+        });
     } else {
-        measuredDataArray.shift();
+        //measuredDataArray.shift();
+        sensorsArray.shift();
         sensorUpdates.forEach(function (d) {
             if (d.get('sensorType') === graphSensorType) {
-                if (parseInt(d.get('measuredData'), 10)  === measuredDataArray[measuredDataArray.length - 1]) {
+                //if (parseInt(d.get('measuredData'), 10)  === measuredDataArray[measuredDataArray.length - 1]) {
+                if (parseInt(d.get('measuredData'), 10)  === sensorsArray[sensorsArray.length - 1]) {
                     console.log('warning');
                     $('#warn-temp').remove();
                     var warning = '<div class ="alert" id="warn-temp"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>Warning!</strong> The temperature did not change. Check your sensors!.</div>';
@@ -147,19 +160,28 @@ function updateLineChart(currentView, simulationMode) { //add parameter simulati
                 } else {
                     $('#warn-temp').remove();
                 }
-                measuredDataArray.push(d.get('measuredData'));
+                //measuredDataArray.push(d.get('measuredData'));
+                sensorsArray.push(d);
             }
         });
     }
 
-    var i = 0;
+    /*var i = 0;
 
     sensorsArray.forEach(function (d) {
         d.set('measuredData', measuredDataArray[i]);
         i++;
-    });
+    });*/
 
     currentView.set('sensorsArray', sensorsArray);
+    sensorsArray.forEach(function (d) {
+            // might need that to display date/time on x-Axis. Hopefully not though.
+            sensorsArray.addObject(d);
+            xvalues.push(parseDate(d.get('measuredAt')));
+            yvalues.push(parseInt(d.get('measuredData'), 10));
+    });
+    currentView.set('xvalues',xvalues);
+    currentView.set('yvalues',yvalues);
     //var v = yvalues.shift(); // remove the first element of the array
     //exchange v with updateValue
     //this.get('data').push(updateValue);
@@ -230,6 +252,7 @@ OccupOS.IndexView = Ember.ContainerView.extend({
             graph: null,
             x: null,
             y: null,
+            xvalues: null,
             data: null,
             lineNew: null,
             sensorsArray: {},

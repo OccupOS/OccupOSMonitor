@@ -151,7 +151,6 @@
 //                .duration(500)
 //                .ease('sin')
 //                .attr('d', line(content));
-            
 //            //selects, updates and animates the d3-chart filled area
 //            chart.selectAll('path.area')
 //                .data(content)
@@ -160,7 +159,6 @@
 //                .ease('sin')
 //                .attr('d', area(content));
 //        }.observes('content.@each.value'),
-        
 //        didInsertElement: function didInsertElement() {
 //            var elementId = this.get('elementId');
 //            var content = this.get('content');
@@ -238,7 +236,6 @@
 //                .attr('d', line(content));
 //            this.set('chart', chart);*/
 //        }
-        
 //    }),
 //    TableView: Ember.View.create({
 //        templateName: 'table'
