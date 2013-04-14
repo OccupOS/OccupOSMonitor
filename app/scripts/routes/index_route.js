@@ -9,9 +9,9 @@
         controller.set('sensors', OccupOS.Sensor.find({ 'period': '1'}));
         var myInt = setInterval(function() {
             console.log('---------test----------');
-            if (OccupOS.PeriodController.selection.id !== period)
+            if (OccupOS.PeriodManager.selection.id !== period)
             {
-                period = OccupOS.PeriodController.selection.id;
+                period = OccupOS.PeriodManager.selection.id;
                 setTimeout(function () {
                     controller.set('sensors', OccupOS.Sensor.find({ 'period': period}));
                 }, 2000);
@@ -39,9 +39,9 @@
         }, timeInterval);
         var myFunc = function() {
             console.log('---------test----------');
-            if (OccupOS.PeriodController.selection.id !== period)
+            if (OccupOS.PeriodManager.selection.id !== period)
             {
-                period = OccupOS.PeriodController.selection.id;
+                period = OccupOS.PeriodManager.selection.id;
                 setTimeout(function () {
                     controller.set('sensors', OccupOS.Sensor.find({ 'period': period}));
                 }, 2000);

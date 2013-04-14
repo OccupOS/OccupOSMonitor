@@ -126,6 +126,11 @@ function updateLineChart(currentView, simulationMode,width) { //add parameter si
         height = 350 - margin.top - margin.bottom;
     //graph.select('.yaxis').transition().duration(10).call(yAxis);
     width = width - margin.left - margin.right;
+    if(sensorsArray[0].get('measuredData')==='NaN')
+        {
+        console.log('connection error');
+        return;
+    }
     sensorsArray.forEach(function (d) {
         measuredDataArray.push(d.get('measuredData'));
     });
@@ -379,8 +384,8 @@ OccupOS.IndexView = Ember.ContainerView.extend({
         classNames: ['row'],
         childViews: ['SelectView'],
         SelectView: Ember.Select.extend({
-            contentBinding: 'OccupOS.PeriodController',
-            selectionBinding: 'OccupOS.PeriodController.selection',
+            contentBinding: 'OccupOS.PeriodManager',
+            selectionBinding: 'OccupOS.PeriodManager.selection',
             optionLabelPath: 'content.periodTime',
             optionValuePath: 'content.id'
         })

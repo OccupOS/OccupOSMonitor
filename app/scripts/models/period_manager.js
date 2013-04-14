@@ -1,5 +1,4 @@
-OccupOS.PeriodController = Ember.ArrayProxy.create({
-	needs: ['IndexController'],
+OccupOS.PeriodManager = Ember.ArrayProxy.create({
 	selection: null,
 	content: [
 		OccupOS.Period.create({id: 1, periodTime: 'last hour'}),
