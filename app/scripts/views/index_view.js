@@ -20,7 +20,6 @@ function createLineChart(currentView, width) {
         yvalues = [];
 
     width = width - margin.left - margin.right;
-
     sensors.forEach(function (d) {
 
         if (d.get('sensorType') === graphSensorType) {
@@ -66,6 +65,7 @@ function createLineChart(currentView, width) {
 
     //TO-DO: Fix that d3.select command. Possible have a parameter.
     //Or use selectAll and check which .linechart-div doesn't have any svg elements yet.
+    console.log(d3.extent(xvalues));
     var svg = d3.select(d3.selectAll('.linechart')[0][lineChartNr]).append('svg')
         .data([sensorsArray])
         .attr('class', 'graph')
@@ -103,17 +103,17 @@ function createLineChart(currentView, width) {
 
 
 
-    currentView.set('yvalues', yvalues);
+    currentView.set('yvalue', yvalues);
     currentView.set('line', line);
     currentView.set('x', x);
     currentView.set('y', y);
     currentView.set('graph', svg);
-    currentView.set('xvalues', xvalues);
+    currentView.set('xvalue', xvalues);
 }
 
-function updateLineChart(currentView, simulationMode) { //add parameter simulationMode
+function updateLineChart(currentView, simulationMode, width) { //add parameter simulationMode
     var graph = currentView.get('graph'),
-        line = currentView.get('line'),
+    // line = currentView.get('line'),
         graphSensorType = currentView.get('sensorType'),
         sensorsArray = currentView.get('sensorsArray'),
         xvalues = [],
@@ -122,16 +122,10 @@ function updateLineChart(currentView, simulationMode) { //add parameter simulati
     // updateValue = 0,
         sensorUpdates = currentView.get('parentView.parentView.sensorUpdates'),
         measuredDataArray = [];
-
-    graph.selectAll('path.line')
-        .data([sensorsArray]) // set the new data
-        .transition() // start a transition to bring the new value into view
-        .duration(500) // for this demo we want a continual slide so set this to the same as the setInterval amount below
-        .ease('sin')
-        .attr('d', line);
-
+    var margin = { top: 20, right: 20, bottom: 30, left: 50 },
+        height = 350 - margin.top - margin.bottom;
     //graph.select('.yaxis').transition().duration(10).call(yAxis);
-
+    width = width - margin.left - margin.right;
     sensorsArray.forEach(function (d) {
         measuredDataArray.push(d.get('measuredData'));
     });
@@ -172,16 +166,43 @@ function updateLineChart(currentView, simulationMode) { //add parameter simulati
      d.set('measuredData', measuredDataArray[i]);
      i++;
      });*/
-
     currentView.set('sensorsArray', sensorsArray);
     sensorsArray.forEach(function (d) {
         // might need that to display date/time on x-Axis. Hopefully not though.
-        sensorsArray.addObject(d);
+        //sensorsArray.addObject(d);
         xvalues.push(parseDate(d.get('measuredAt')));
         yvalues.push(parseInt(d.get('measuredData'), 10));
     });
-    currentView.set('xvalues', xvalues);
-    currentView.set('yvalues', yvalues);
+
+    var x = d3.time.scale().domain(d3.extent(xvalues)).range([0, width]);
+    var y = d3.scale.linear().domain(d3.extent(yvalues))
+        .range([height, 0]);
+    var xAxis = d3.svg.axis()
+        .scale(x)
+        .orient('bottom');
+
+    var yAxis = d3.svg.axis()
+        .scale(y)
+        .orient('left');
+    console.log(d3.extent(xvalues));
+    var line = d3.svg.line()
+        //.x(function (d) { console.log('line x bla'); console.log(d); return x(d.get('measuredData')); })
+        .y(function (d) { return y(d.get('measuredData')); })
+        .x(function (d) { return x(parseDate(d.get('measuredAt'))); })
+        //      .x(function (d, i) { return x(i); })
+        //    .y(function (d) { return y(d); })
+        .interpolate('linear');
+
+    graph.selectAll('path.line')
+        .data([sensorsArray]) // set the new data
+        .transition() // start a transition to bring the new value into view
+        .duration(500) // for this demo we want a continual slide so set this to the same as the setInterval amount below
+        .ease('sin')
+        .attr('d', line);
+    graph.selectAll('.x.axis').transition().duration(500).call(xAxis);
+    graph.selectAll('.y.axis').transition().duration(500).call(yAxis);
+    //currentView.set('xvalues',xvalues);
+    //currentView.set('yvalues',yvalues);
     //var v = yvalues.shift(); // remove the first element of the array
     //exchange v with updateValue
     //this.get('data').push(updateValue);
@@ -212,7 +233,6 @@ OccupOS.IndexView = Ember.ContainerView.extend({
     sensorsBinding: 'controller.sensors',
     sensorsIsLoaded: false,
     sensorUpdatesBinding: 'controller.sensorUpdates',
-    simulationMode: true,
     sensorsObserver: function () {
         if (this.get('sensors.isLoaded')) {
             //convert sensors immediately to array, so it can be used straight away
@@ -266,9 +286,10 @@ OccupOS.IndexView = Ember.ContainerView.extend({
                 }
             },
             updateChart: function updateChart() {
-                updateLineChart(this, this.get('parentView.parentView.simulationMode'));
+                var simulationMode = false;
+                updateLineChart(this, simulationMode, 560);
             }
-        }),
+        })
     }),
     RowTwoView: Ember.ContainerView.extend({
         classNames: ['row'],
@@ -295,7 +316,8 @@ OccupOS.IndexView = Ember.ContainerView.extend({
                 }
             },
             updateChart: function updateChart() {
-                updateLineChart(this, this.get('parentView.parentView.simulationMode'));
+                var simulationMode = false;
+                updateLineChart(this, simulationMode, 960);
                 //updateLineChartFromServer(this);
             }
         }),
