@@ -32,7 +32,7 @@ function createLineChart(currentView, width) {
     });
     //the latest data should be at the end rather than at the beginning for d3js
     //  yvalues.reverse();
-   // sensorsArray.reverse();
+    // sensorsArray.reverse();
     currentView.set('sensorsArray', sensorsArray);
     //   var x = d3.scale.linear().domain([0, xvalues.length - 1]).range([0, width]);
     // Used for displaying date/time
@@ -108,7 +108,7 @@ function createLineChart(currentView, width) {
     currentView.set('x', x);
     currentView.set('y', y);
     currentView.set('graph', svg);
-    currentView.set('xvalues',xvalues);
+    currentView.set('xvalues', xvalues);
 }
 
 function updateLineChart(currentView, simulationMode) { //add parameter simulationMode
@@ -168,20 +168,20 @@ function updateLineChart(currentView, simulationMode) { //add parameter simulati
 
     /*var i = 0;
 
-    sensorsArray.forEach(function (d) {
-        d.set('measuredData', measuredDataArray[i]);
-        i++;
-    });*/
+     sensorsArray.forEach(function (d) {
+     d.set('measuredData', measuredDataArray[i]);
+     i++;
+     });*/
 
     currentView.set('sensorsArray', sensorsArray);
     sensorsArray.forEach(function (d) {
-            // might need that to display date/time on x-Axis. Hopefully not though.
-            sensorsArray.addObject(d);
-            xvalues.push(parseDate(d.get('measuredAt')));
-            yvalues.push(parseInt(d.get('measuredData'), 10));
-        });
-    currentView.set('xvalues',xvalues);
-    currentView.set('yvalues',yvalues);
+        // might need that to display date/time on x-Axis. Hopefully not though.
+        sensorsArray.addObject(d);
+        xvalues.push(parseDate(d.get('measuredAt')));
+        yvalues.push(parseInt(d.get('measuredData'), 10));
+    });
+    currentView.set('xvalues', xvalues);
+    currentView.set('yvalues', yvalues);
     //var v = yvalues.shift(); // remove the first element of the array
     //exchange v with updateValue
     //this.get('data').push(updateValue);
@@ -212,6 +212,7 @@ OccupOS.IndexView = Ember.ContainerView.extend({
     sensorsBinding: 'controller.sensors',
     sensorsIsLoaded: false,
     sensorUpdatesBinding: 'controller.sensorUpdates',
+    simulationMode: true,
     sensorsObserver: function () {
         if (this.get('sensors.isLoaded')) {
             //convert sensors immediately to array, so it can be used straight away
@@ -265,8 +266,7 @@ OccupOS.IndexView = Ember.ContainerView.extend({
                 }
             },
             updateChart: function updateChart() {
-                var simulationMode = true;
-                updateLineChart(this, simulationMode);
+                updateLineChart(this, this.get('parentView.parentView.simulationMode'));
             }
         }),
     }),
@@ -295,8 +295,7 @@ OccupOS.IndexView = Ember.ContainerView.extend({
                 }
             },
             updateChart: function updateChart() {
-                var simulationMode = true;
-                updateLineChart(this, simulationMode);
+                updateLineChart(this, this.get('parentView.parentView.simulationMode'));
                 //updateLineChartFromServer(this);
             }
         }),
