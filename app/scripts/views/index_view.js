@@ -31,7 +31,7 @@ function createLineChart(currentView, width) {
     });
     //the latest data should be at the end rather than at the beginning for d3js
     //  yvalues.reverse();
-   // sensorsArray.reverse();
+    // sensorsArray.reverse();
     currentView.set('sensorsArray', sensorsArray);
     //   var x = d3.scale.linear().domain([0, xvalues.length - 1]).range([0, width]);
     // Used for displaying date/time
@@ -108,12 +108,12 @@ function createLineChart(currentView, width) {
     currentView.set('x', x);
     currentView.set('y', y);
     currentView.set('graph', svg);
-    currentView.set('xvalue',xvalues);
+    currentView.set('xvalue', xvalues);
 }
 
-function updateLineChart(currentView, simulationMode,width) { //add parameter simulationMode
+function updateLineChart(currentView, simulationMode, width) { //add parameter simulationMode
     var graph = currentView.get('graph'),
-       // line = currentView.get('line'),
+    // line = currentView.get('line'),
         graphSensorType = currentView.get('sensorType'),
         sensorsArray = currentView.get('sensorsArray'),
         xvalues = [],
@@ -167,17 +167,17 @@ function updateLineChart(currentView, simulationMode,width) { //add parameter si
 
     /*var i = 0;
 
-    sensorsArray.forEach(function (d) {
-        d.set('measuredData', measuredDataArray[i]);
-        i++;
-    });*/
+     sensorsArray.forEach(function (d) {
+     d.set('measuredData', measuredDataArray[i]);
+     i++;
+     });*/
     currentView.set('sensorsArray', sensorsArray);
     sensorsArray.forEach(function (d) {
-            // might need that to display date/time on x-Axis. Hopefully not though.
-            //sensorsArray.addObject(d);
-            xvalues.push(parseDate(d.get('measuredAt')));
-            yvalues.push(parseInt(d.get('measuredData'), 10));
-        });
+        // might need that to display date/time on x-Axis. Hopefully not though.
+        //sensorsArray.addObject(d);
+        xvalues.push(parseDate(d.get('measuredAt')));
+        yvalues.push(parseInt(d.get('measuredData'), 10));
+    });
 
     var x = d3.time.scale().domain(d3.extent(xvalues)).range([0, width]);
     var y = d3.scale.linear().domain(d3.extent(yvalues))
@@ -292,9 +292,9 @@ OccupOS.IndexView = Ember.ContainerView.extend({
             },
             updateChart: function updateChart() {
                 var simulationMode = false;
-                updateLineChart(this, simulationMode,560);
+                updateLineChart(this, simulationMode, 560);
             }
-        }),
+        })
     }),
     RowTwoView: Ember.ContainerView.extend({
         classNames: ['row'],
@@ -322,7 +322,7 @@ OccupOS.IndexView = Ember.ContainerView.extend({
             },
             updateChart: function updateChart() {
                 var simulationMode = false;
-                updateLineChart(this, simulationMode,960);
+                updateLineChart(this, simulationMode, 960);
                 //updateLineChartFromServer(this);
             }
         }),
