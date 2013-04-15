@@ -1,9 +1,39 @@
 ﻿OccupOS.IndexRoute = Ember.Route.extend({
+    myTimer: {},
+    timer:  {
+        timers:{},
+        inc:0,
+        start:function(cb,gap) {
+            'use strict';
+            var key = this.inc;
+            this.inc++;
+            this.timers[key] = [setInterval(cb,gap),cb];
+            return key;
+        },
+        stop:function(id) {
+            'use strict';
+            if( !this.timers[id]) { return; }
+            clearInterval(this.timers[id][0]);
+            delete this.timers[id];
+        },
+        change:function(id,newgap) {
+            'use strict';
+            if( !this.timers[id]) { return; }
+            clearInterval(this.timers[id][0]);
+            setInterval(this.timers[id][1],newgap);
+        }
+    },
+    myFunc2: function (controller) {
+        'use strict';
+        //var period = OccupOS.PeriodManager.selection.id;
+        controller.set('sensors', OccupOS.Sensor.find({ 'limit': '1'}));
+    },
     setupController: function (controller) {
         'use strict';
-        var period = 1; // default: get latest hour data
+        window.myTimer = window.timer.start(window.myFunc2(controller), 60*1000);
+        /*var period = 1; // default: get latest hour data
         var oneMinute = 60 * 1000;
-        var oneHour = oneMinute * 60;
+        var oneHour = oneMisnute * 60;
         var oneDay = oneHour * 24;
         var timeInterval = oneMinute; // 1 minute by default
         controller.set('sensors', OccupOS.Sensor.find({ 'period': '1'}));
@@ -66,8 +96,10 @@
             }
             controller.set('sensorUpdates', OccupOS.Sensor.find({ 'limit': '1'}));
         };
-    },/*
+    },*/
+    /*
      redirect: function () {
      this.transitionTo('monitor');
      }*/
+    }
 });
