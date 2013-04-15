@@ -1,4 +1,4 @@
-OccupOS.PeriodManager = Ember.ArrayProxy.create({
+OccupOS.PeriodManager = Ember.ArrayProxy.extend({
 	selection: null,
 	content: [
 		OccupOS.Period.create({id: 1, periodTime: 'last hour'}),
@@ -32,9 +32,12 @@ OccupOS.PeriodManager = Ember.ArrayProxy.create({
         case 5:
             timeInterval = oneDay * 2;
         }
-		OccupOS.IndexRoute.change(OccupOS.IndexRoute.myTimer, timeInterval);
+		OccupOS.IndexRoute.timer.change(OccupOS.IndexRoute.myTimer, timeInterval, this.get('selection.id'));
+		//clearInterval(OccupOS.IndexRoute.myTimer);
 	//	console.log(this.get('selection').get('firstObject').get('id'));
 		//console.log('selection: ' + this.get('controllers.IndexController.selection'));
 		//console.log(this.get('selection').get('id').toString());
 	}.observes('selection.isLoaded')
 });
+
+OccupOS.PeriodManagerC = OccupOS.PeriodManager.create();

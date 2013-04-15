@@ -384,8 +384,8 @@ OccupOS.IndexView = Ember.ContainerView.extend({
         classNames: ['row'],
         childViews: ['SelectView'],
         SelectView: Ember.Select.extend({
-            contentBinding: 'OccupOS.PeriodManager',
-            selectionBinding: 'OccupOS.PeriodManager.selection',
+            contentBinding: 'OccupOS.PeriodManagerC',
+            selectionBinding: 'OccupOS.PeriodManagerC.selection',
             optionLabelPath: 'content.periodTime',
             optionValuePath: 'content.id'
         })
