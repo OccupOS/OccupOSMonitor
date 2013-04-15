@@ -243,6 +243,15 @@ module.exports = function (grunt) {
         },
         build_test_runner_file: {
             all: ['test/**/*test.js']
+        },
+        shell: {
+            startLocalAPI: {
+                command: '"C:\\Program Files\\IIS Express\\iisexpress" /site:OccupOSAPI',
+                options: {
+                    stdout: true,
+                    stderr: true
+                }
+            }
         }
     });
 

@@ -26,7 +26,8 @@
     "grunt-neuter": "~0.4.0",
     "grunt-ember-templates": "~0.4.4",
     "grunt-contrib-qunit": "~0.2.1",
-    "grunt-bower-task": "~0.2.0"
+    "grunt-bower-task": "~0.2.0",
+    "grunt-shell": "~0.2.2"
   },
   "engines": {
     "node": ">=0.8.0"
