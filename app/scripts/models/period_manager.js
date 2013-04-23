@@ -32,7 +32,7 @@ OccupOS.PeriodManager = Ember.ArrayProxy.extend({
         case 5:
             timeInterval = oneDay * 2;
         }
-		OccupOS.IndexRoute.timer.change(OccupOS.IndexRoute.myTimer, timeInterval, this.get('selection.id'));
+		window.timer1.change(window.myTimer1, timeInterval, this.get('selection.id'));
 		//clearInterval(OccupOS.IndexRoute.myTimer);
 	//	console.log(this.get('selection').get('firstObject').get('id'));
 		//console.log('selection: ' + this.get('controllers.IndexController.selection'));
