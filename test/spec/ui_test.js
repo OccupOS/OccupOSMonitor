@@ -57,7 +57,14 @@ App.EmployeeView = Ember.View.extend({
 'use strict';
 OccupOS.Store = DS.Store.extend({
     revision: 12,
-    adapter: DS.FixtureAdapter.create({ simulateRemoteResponse: false })
+    adapter: DS.FixtureAdapter.create({
+        simulateRemoteResponse: false,
+        queryFixtures: function(fixtures, query, type){
+            console.log('fixtures: ' + fixtures);
+            console.log('query: ' + query);
+            console.log('type: ' + type);
+        }
+    })
 });
 
 // Declare some fixture objects to use in our test application.  There's
@@ -90,6 +97,21 @@ OccupOS.Sensor.FIXTURES = [{
     measuredData: 20.6,
     measuredAt: '2013-04-18 17:00:10',
     sensorType: 9
+}, {
+    id: 3,
+    measuredData: 23,
+    measuredAt: '2013-04-18 17:00:20',
+    sensorType: 9
+}, {
+    id: 4,
+    measuredData: 0,
+    measuredAt: '2013-04-18 17:00:00',
+    sensorType: 3
+}, {
+    id: 5,
+    measuredData: 89,
+    measuredAt: '2013-04-18 17:00:10',
+    sensorType: 3
 }];
 
 // Run before each test case.
@@ -100,7 +122,7 @@ QUnit.testStart(function () {
     // This is broken in some versions of Ember and Ember Data, see:
     // https://github.com/emberjs/data/issues/847
     //Ember.run(OccupOS, 'advanceReadiness');
-    OccupOS.reset();
+    //OccupOS.reset();
     // Display an error if asynchronous operations are queued outside of
     // Ember.run.  You need this if you want to stay sane.
     Ember.testing = true;
@@ -151,3 +173,76 @@ test('Has a Sensor', function () {
 });
 
 // Sample controller test.
+
+/*module('OccupOS.IndexController', {
+    setup: function () {
+        Ember.run(this, function () {
+            // We could also fetch a model from our fixtures.
+            this.model = OccupOS.Sensor.createRecord({ measuredData: 30 });
+            this.controller = OccupOS.IndexController.create({ content: this.model });
+        });
+    }
+});
+
+test('can give the employee a raise', function () {
+    var oldSalary = this.model.get('salary');
+    Ember.run(this, function () {
+        this.controller.giveRaise();
+    });
+    equal(this.model.get('salary'), oldSalary * 1.1);
+});
+
+// Sample view test.
+
+module('OccupOS.IndexView', {
+    setup: function () {
+        Ember.run(this, function () {
+            var model = App.Employee.find(1);
+            this.controller = App.EmployeeController.create({
+                // We need a container to test views with linkTo.
+                /*jshint camelcase: false*/
+                //container: App.__container__,
+                /*jshint camelcase: true*/
+                /*content: model
+            });
+            // If for some reason we want to isolate this, we can use
+            // a sinon stub to intercept certain calls.
+            sinon.stub(this.controller, 'giveRaise');
+            this.view = App.EmployeeView.create({
+                controller: this.controller,
+                context: this.controller
+            });
+            this.view.append(); // Hook up to our document.
+        });
+    },
+
+    teardown: function () {
+        Ember.run(this, function () {
+            this.view.remove(); // Unhook from our document.
+        });
+    }
+});
+
+test('shows the employee\'s name', function () {
+    equal(this.view.$('h2').text(), 'Jane Q. Public');
+    ok(this.view.$('.manages li').text().match(/John/));
+});
+
+test('Can sort table', function () {
+    this.view.$('button').click();
+    ok(this.controller.giveRaise.calledOnce);
+});
+
+// Sample acceptance test.
+
+module('Employee features');
+
+test('give John\'s boss a raise', function () {
+    $('a:contains("Show employees")').click();
+    $('a:contains("John")').click();
+    $('.managed-by a').click();
+    equal($('.salary').text(), '$80000');
+    $('button:contains("Give Raise")').click();
+    equal($('.salary').text(), '$88000');
+});*/
+

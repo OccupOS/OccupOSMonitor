@@ -24,14 +24,15 @@ module('Basic Routing', {
        });
 
        container = App.__container__;   */
-    }/*,// somehow not working
+    },// somehow not working
     teardown: function () {
-        Ember.run(OccupOS, 'destroy');
-        Ember.run(function () {
-            OccupOS.destroy();
-            OccupOS = null;
-        });
-    }*/
+        OccupOS.reset();
+        //Ember.run(OccupOS, 'destroy');
+        //Ember.run(function () {
+        //    OccupOS.destroy();
+        //    OccupOS = null;
+        //});
+    }
 });
 
 test('loading of startpage (indexroute)', function () {
