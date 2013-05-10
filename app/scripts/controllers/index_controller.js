@@ -69,6 +69,7 @@ OccupOS.IndexController = Ember.Controller.extend({
         case 5:
             timeInterval = oneDay * 2;
         }
+        console.log(timeInterval);
         window.timer1.change(window.myTimer1, timeInterval, id);
     }
     /*whenDataLoads: function () {

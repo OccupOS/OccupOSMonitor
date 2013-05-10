@@ -29,6 +29,7 @@
         "DS": true,
         "d3": true,
         "OccupOS": true,
+        "QUnit": true,
         "test": true,
         "equal": true,
         "ok": true,

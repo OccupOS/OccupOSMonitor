@@ -103,10 +103,11 @@ window.timer1 = {
         clearInterval(this.timers[id][0]);
         delete this.timers[id];
     },
-    change: function(id,newgap,t) {
+    change: function(id, newgap, t) {
         if( !this.timers[id]) { return; }
         clearInterval(this.timers[id][0]);
+        console.log(newgap);
         window.controller1.set('sensors', OccupOS.Sensor.find({ 'period': t}));
-        setInterval(this.timers[id][1],newgap);
+        setInterval(this.timers[id][1], newgap);
     }
 };
