@@ -383,11 +383,20 @@ OccupOS.IndexView = Ember.ContainerView.extend({
     RowThreeView: Ember.ContainerView.extend({
         classNames: ['row'],
         childViews: ['SelectView'],
-        SelectView: Ember.Select.extend({
+        SelectView: Ember.View.extend({
+            templateName: 'btngroup',
+            click: function(e){
+                console.log('Clickhandler wooo');
+                var clickedButton = $(e.target);
+                clickedButton.siblings().removeClass('active');
+                clickedButton.addClass('active');
+            }
+        })
+        /*Ember.Select.extend({
             contentBinding: 'OccupOS.PeriodManagerC',
             selectionBinding: 'OccupOS.PeriodManagerC.selection',
             optionLabelPath: 'content.periodTime',
             optionValuePath: 'content.id'
-        })
+        })*/
     })
 });

@@ -1,6 +1,6 @@
 {
   "author": {
-    "name": "Ember User",
+    "name": "OccupOS",
     "url": "http://emberjs.com/"
   },
   "name": "occuposmonitor",
@@ -23,10 +23,10 @@
     "grunt-open": "~0.2.0",
     "matchdep": "~0.1.1",
     "grunt-minispade": "~0.1.2",
-    "grunt-neuter": "~0.4.0",
+    "grunt-neuter": "~0.5.0",
     "grunt-ember-templates": "~0.4.4",
     "grunt-contrib-qunit": "~0.2.1",
-    "grunt-bower-task": "~0.2.0",
+    "grunt-bower-task": "~0.2.2",
     "grunt-shell": "~0.2.2"
   },
   "engines": {

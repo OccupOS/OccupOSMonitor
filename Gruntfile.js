@@ -286,7 +286,7 @@ module.exports = function (grunt) {
 
         grunt.task.run([
             'jshint',
-            'bower',
+            //'bower',
             'ember_templates',
             'neuter',
             'clean:server',
