@@ -10,7 +10,8 @@ function createLineChart(currentView, width) {
     width = typeof width !== 'undefined' ? width : 960;
     //values for width and height should be (more) dynamical, based on how big you actually want the graph. Seems useful for better font-rendering.
     var margin = { top: 20, right: 20, bottom: 30, left: 50 },
-        height = 350 - margin.top - margin.bottom,
+        //height = 350 - margin.top - margin.bottom,
+        height = 350 - 10 - 15,
         sensors = currentView.get('parentView.parentView.sensors'),
         graphSensorType = currentView.get('sensorType'),
         lineChartNr = currentView.get('lineChartNr'),
