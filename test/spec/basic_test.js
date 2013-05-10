@@ -49,5 +49,5 @@ test('loading of startpage (indexroute)', function () {
         router.handleURL('/');
     });
     equal(currentPath, wantedPath, 'Wanted path: ' + wantedPath + ', current path: ' + currentPath);
-    //equal(Ember.$('h3:contains(Hours)', '#qunit-fixture').length, 1, "The index template was rendered");
+    equal(Ember.$('h2:contains(Room)', '#qunit-fixture').length, 1, 'The index template was rendered');
 });
