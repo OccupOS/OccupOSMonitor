@@ -1,4 +1,5 @@
-/*ui_test.js//================================================================================
+//ui_test.js//================================================================================
+/*
 // Application Code
 
 window.App = Ember.Application.create();
@@ -44,7 +45,7 @@ App.EmployeeController = Ember.ObjectController.extend({
 App.EmployeeView = Ember.View.extend({
     // Only needed so we can be called outside of a route by our unit tests.
     templateName: 'employee'
-});
+});*/
 
 //================================================================================
 // Test Code
@@ -53,7 +54,7 @@ App.EmployeeView = Ember.View.extend({
 // don't need a server.  We disable simulateRemoteResponse so that objects will
 // appear to load at the end of every Ember.run block instead of waiting for a
 // timer to fire.
-App.Store = DS.Store.extend({
+/*App.Store = DS.Store.extend({
     revision: 12,
     adapter: DS.FixtureAdapter.create({ simulateRemoteResponse: false })
 });
@@ -134,7 +135,7 @@ function loadAssociations(object ) {     //, paths...
 
 // Sample model test.
 
-module("OccupOS.Sensor");
+module('OccupOS.Sensor');
 
 test("Has a Sensor", function () {
     var temperature = {};
@@ -217,4 +218,4 @@ test("give John's boss a raise", function () {
     equal($(".salary").text(), "$80000");
     $("button:contains('Give Raise')").click();
     equal($(".salary").text(), "$88000");
-});    */
+});  */
