@@ -6,6 +6,7 @@ require('app/scripts/templates');
 require('app/lib/d3/d3');
 require('app/lib/nightlies/jquery-dataTables');
 require('app/lib/nightlies/bootstrap-dataTables');
+require('app/lib/nightlies/bootstrap-dropdown');
 
 
 Ember.LOG_BINDINGS = true;
@@ -32,11 +33,12 @@ require('app/scripts/models/period_manager');
 require('app/scripts/views/application_view');
 require('app/scripts/views/navbar_view');
 require('app/scripts/views/index_view');
+require('app/scripts/views/btngroup_view');
 
 require('app/scripts/controllers/application_controller');
 require('app/scripts/controllers/navbar_controller');
 require('app/scripts/controllers/index_controller');
-require('app/scripts/controllers/selected_period_controller');
+require('app/scripts/views/btngroup_controller');
 
 require('app/scripts/router');
 require('app/scripts/routes/index_route');

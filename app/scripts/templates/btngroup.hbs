@@ -1,4 +1,17 @@
-﻿<div class="btn-group">
+﻿<!-- Single button -->
+<div class="btn-group">
+  <button class="btn dropdown-toggle" data-toggle="dropdown">
+     <span class="selected">Room 1.06</span> <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu">
+    <li><a href="#" class="room">Room 1.06</a></li>
+    <li><a href="#" class="room">Room 1.07</a></li>
+    <li><a href="#" class="room">Room 1.08</a></li>
+    <li><a href="#" class="room">Room 1.09</a></li>
+    <li><a href="#" class="room">Room 1.21</a></li>
+  </ul>
+</div>
+<div class="btn-group">
     <button class="btn active" {{action 'changePeriod' 1}}>24 Hours</button>
     <button class="btn" {{action 'changePeriod' 2}}>1 Week</button>
     <button class="btn" {{action 'changePeriod' 3}}>1 Months</button>
