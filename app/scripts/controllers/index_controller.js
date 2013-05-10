@@ -1,5 +1,4 @@
-﻿/// <reference path="../../vendor/ember.js" />
-/// <reference path="../App.js" />
+﻿'use strict';
 
 OccupOS.IndexController = Ember.Controller.extend({
     occupants: '-',
@@ -14,7 +13,6 @@ OccupOS.IndexController = Ember.Controller.extend({
     },
 
     sensorsObserver: function () {
-        'use strict';
         if (this.get('sensorUpdates.isLoaded')) {
             console.log('from controller');
             var self = this;
@@ -47,9 +45,32 @@ OccupOS.IndexController = Ember.Controller.extend({
         }
     }.observes('sensorUpdates.isLoaded'),
     selectionObserver: function () {
-        'use strict';
        // console.log(this.get('selection'));
-    }.observes('selection.isLoaded')
+    }.observes('selection.isLoaded'),
+    changePeriod: function(id){
+        console.log('Changing Graph: ' + id);
+        var oneMinute = 60 * 1000;
+        var oneHour = oneMinute * 60;
+        var oneDay = oneHour * 24;
+        var timeInterval = oneMinute; // 1 minute by default
+        switch (id) {
+        case 1:
+            timeInterval = oneMinute; // Update every one minute
+            break;
+        case 2:
+            timeInterval = oneMinute * 10; // every 10 mins
+            break;
+        case 3:
+            timeInterval = oneHour * 3; // every 3 hours
+            break;
+        case 4:
+            timeInterval = oneHour * 12;
+            break;
+        case 5:
+            timeInterval = oneDay * 2;
+        }
+        window.timer1.change(window.myTimer1, timeInterval, this.get('selection.id'));
+    }
     /*whenDataLoads: function () {
         console.log("whendataloads");
         console.log(this.get('sensors.isLoaded'));

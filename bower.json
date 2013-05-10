@@ -2,11 +2,10 @@
   "name": "occuposmonitor",
   "version": "0.9.0",
   "dependencies": {
-    "jquery": "~2.0.0",
+    "jquery": "~1.9.1",
     "d3": "3.1.4",
     "ember": "~1.0.0-rc.3",
     "handlebars": "~1.0.0-rc.3",
-    "ember-latest": "http://builds.emberjs.com.s3.amazonaws.com/ember-latest.js",
     "ember-data": "https://s3.amazonaws.com/builds.emberjs.com/ember-data-latest.js",
     "nightlies": "https://github.com/Globegitter/OccupOS-Dependency-Nightlies.git"
   },

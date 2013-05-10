@@ -1,20 +1,21 @@
-﻿OccupOS.IndexRoute = Ember.Route.extend({
+﻿'use strict';
+
+OccupOS.IndexRoute = Ember.Route.extend({
     myTimer: {},
     controller: null,
     timer: {},
     myFunc2: function () {
-        'use strict';
         //var period = OccupOS.PeriodManager.selection.id;
         window.controller1.set('sensorUpdates', OccupOS.Sensor.find({ 'limit': '1'}));
     },
     setupController: function (controller) {
-        'use strict';
         window.controller1 = controller;
         controller.set('sensors', OccupOS.Sensor.find({ 'period': '1'}));
 
         //this.set('timer',timer1);
         //this.set('timer', timer1);
-        window.myTimer1 = window.timer1.start(this.myFunc2, 60*1000);
+        //60000ms = last hour
+        window.myTimer1 = window.timer1.start(this.myFunc2, 60000);
         /*var period = 1; // default: get latest hour data
         var oneMinute = 60 * 1000;
         var oneHour = oneMisnute * 60;
@@ -91,21 +92,18 @@
 window.timer1 = {
     timers:{},
     inc:0,
-    start:function(cb,gap) {
-        'use strict';
+    start:function(cb, gap) {
         var key = this.inc;
         this.inc++;
-        this.timers[key] = [setInterval(cb,gap),cb];
+        this.timers[key] = [setInterval(cb, gap), cb];
         return key;
     },
     stop:function(id) {
-        'use strict';
         if( !this.timers[id]) { return; }
         clearInterval(this.timers[id][0]);
         delete this.timers[id];
     },
     change: function(id,newgap,t) {
-        'use strict';
         if( !this.timers[id]) { return; }
         clearInterval(this.timers[id][0]);
         window.controller1.set('sensors', OccupOS.Sensor.find({ 'period': t}));

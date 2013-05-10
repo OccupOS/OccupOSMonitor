@@ -1,6 +1,6 @@
 ﻿require('app/lib/nightlies/jquery');
-require('app/lib/nightlies/handlebars-runtime');
-require('app/lib/ember/ember');
+require('app/lib/handlebars/handlebars.runtime');
+require('app/lib/ember-latest/index');
 require('app/lib/ember-data/index');
 require('app/scripts/templates');
 require('app/lib/d3/d3');
