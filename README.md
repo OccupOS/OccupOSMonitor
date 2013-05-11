@@ -17,7 +17,7 @@ $ grunt bower
 
 In case something with the packages doesn't work (bower could have a proble, or the grunt-bower task, or even one of the javascript-libraries)
 you can download a working 1.0.0 version of OccupOSMonitor here: http://sdrv.ms/10h6Phi
-Once tht is done, just carry one with the next step.
+Once you finished downloading this, just carry one with the next step.
 
 Fire up the server:
 
