@@ -12,7 +12,12 @@ Install dependencies/build-tools (e.g. grunt):
 
 ```
 $ npm install
+$ grunt bower
 ```
+
+In case something with the packages doesn't work (bower could have a proble, or the grunt-bower task, or even one of the javascript-libraries)
+you can download a working 1.0.0 version of OccupOSMonitor here: http://sdrv.ms/10h6Phi
+Once tht is done, just carry one with the next step.
 
 Fire up the server:
 
@@ -30,4 +35,4 @@ This will use qunit + sinon.js as a basis and phantomjs to run them on the comma
 
 ###Getting it to play nicely with OccupOSAPI
 
-If you run everything locally, you need to download and setup the OccupOSAPI, which is using .NET as a basis. Everything should simply work as-is
+If you run everything locally, you need to download and setup the OccupOSAPI, which is using .NET/ServiceStack as a basis. Everything should simply work as-is, even on Mono.
